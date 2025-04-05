@@ -2,10 +2,35 @@
 #include "Sequence.h"
 #include "LinkedList.h"
 
-template<typename T>
-class ListSequence: public Sequence<T> {
-private:
-    LinkedList<T>* list;
+template <typename T>
+class ListSequence : public Sequence<T> {
+protected:
+    LinkedList<T>* items;
+
+    virtual Sequence<T>* Instance() = 0;
+
+    Sequence<T>* AppendInternal(const T& item) {
+        items->Append(item);
+        return this;
+    }
+
+    Sequence<T>* PrependInternal(const T& item) {
+        items->Prepend(item);
+        return this;
+    }
+
+    Sequence<T>* InsertAtInternal(const T& item, int index) {
+        items->InsertAt(item, index);
+        return this;
+    }
+
+    Sequence<T>* ConcatInternal(Sequence<T>* list) {
+        for (int i = 0; i < list->GetLength(); i++) {
+            items->Append(list->Get(i));
+        }
+        return this;
+    }
+
 public: 
     ListSequence(T* items, int count);
     ListSequence();
@@ -18,9 +43,9 @@ public:
     virtual ListSequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
     virtual int GetLength() const override;
 
-    virtual ListSequence<T>* Append(T item) override;
-    virtual ListSequence<T>* Prepend(T item) override;
-    virtual ListSequence<T>* InsertAt(T item, int index) override;
+    virtual Sequence<T>* Append(const T& item) override;
+    virtual Sequence<T>* Prepend(const T& item) override;
+    virtual Sequence<T>* InsertAt(const T& item, int index) override;
     virtual Sequence<T>* Concat(Sequence<T>* list) override;
 
 
@@ -75,28 +100,21 @@ int ListSequence<T>::GetLength() const {
 }
 
 template<typename T>
-ListSequence<T>* ListSequence<T>::Append(T item) {
-    list->Append(item);
-    return this;
+Sequence<T>* ListSequence<T>::Append(const T& item) {
+    return Instance()->AppendInternal(item);
 }
 
 template<typename T>
-ListSequence<T>* ListSequence<T>::Prepend(T item) {
-    list->Prepend(item);
-    return this;
+Sequence<T>* ListSequence<T>::Prepend(const T& item) {
+    return Instance()->PrependInternal(item);
 }
 
 template<typename T>
-ListSequence<T>* ListSequence<T>::InsertAt(T item, int index) {
-    list->InsertAt(item, index);
-    return this;
+Sequence<T>* ListSequence<T>::InsertAt(const T& item, int index) {
+    return Instance()->InsertAtInternal(item, index);
 }
 
 template<typename T>
 Sequence<T>* ListSequence<T>::Concat(Sequence<T>* otherList) {
-    for (int i = 0; i < otherList->GetLength(); i++) {
-        this->Append(otherList->Get(i));
-    }
-    return this;
+    return Instance()->ConcatInternal(list);
 }
-
