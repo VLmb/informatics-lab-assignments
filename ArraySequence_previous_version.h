@@ -4,59 +4,10 @@
 
 template <typename T>
 class ArraySequence: public Sequence<T> {
-protected:
+private:
     DynamicArray<T>* items;
     int count;
     size_t capacity;
-
-    virtual Sequence<T>* Instance() = 0;
-
-    Sequence<T>* AppendInternal(const T& item){
-        if (count + 1 == capacity){
-            capacity = 2*capacity;
-            items->Resize(capacity);
-        }
-        items->Set(count, item);
-        count++;
-        return this;    
-    }
-
-    Sequence<T>* PrependInternal(const T& item){
-        if (count == capacity){
-            capacity = 2 * capacity;
-            items->Resize(capacity);
-        }
-        for (int i = count; i > 0; i--){
-            items->Set(i, items->Get(i - 1));
-        }
-        items->Set(0, item);
-        count++;
-        return this;   
-    }
-
-    Sequence<T>* InsertAtInternal(const T& item, int index){
-        if (index < 0 || index > count){
-            throw std::invalid_argument("IndexOutOfRange");
-        }
-        if (count == capacity){
-            capacity = 2 * capacity;
-            items->Resize(capacity);
-        }
-        for (int i = count; i > index; i--){
-            items->Set(i, items->Get(i - 1));
-        }
-        items->Set(index, item);
-        count++;
-        return this;
-    }
-
-    Sequence<T>* ConcatInternal(Sequence<T>* array){
-        for (int i = 0; i < array->GetLength(); i++) {
-            this->Append(array->Get(i));
-        }
-        return this;  
-    }
-
 public:
     ArraySequence(T* items, int count);
     ArraySequence();
@@ -69,9 +20,9 @@ public:
     virtual ArraySequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
     virtual int GetLength() const override;
 
-    virtual Sequence<T>* Append(const T& item) override;
-    virtual Sequence<T>* Prepend(const T& item) override;
-    virtual Sequence<T>* InsertAt(const T& item, int index) override;
+    virtual ArraySequence<T>* Append(T item) override;
+    virtual ArraySequence<T>* Prepend(T item) override;
+    virtual ArraySequence<T>* InsertAt(T item, int index) override;
     virtual Sequence<T>* Concat(Sequence<T>* list) override;
 };
 
@@ -82,21 +33,21 @@ ArraySequence<T>::ArraySequence(T* items, int count){
     }
     this->capacity = (count > 0) ? (2 * count) : 1;
     this->count = count;    
-    this->items = new DynamicArray<T>(items, count);
+    items = new DynamicArray<T>(items, count);
 }
 
 template <typename T>
 ArraySequence<T>::ArraySequence(){
-    this->items = new DynamicArray(0);
-    this->count = 0;
-    this->capacity = 1;
+    items = new DynamicArray();
+    count = 0;
+    capacity = 1;
 }
 
 template <typename T>
 ArraySequence<T>::ArraySequence(const ArraySequence<T>& array){
     this->count = array.count;
     this->capacity = array.capacity;
-    this->items = new DynamicArray<T>(*array.items);
+    items = new DynamicArray(*array.items);
 }
 
 template <typename T>
@@ -135,7 +86,7 @@ int ArraySequence<T>::GetLength() const {
 
 template <typename T>
 ArraySequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
-    if (startIndex < 0 || endIndex >= count || endIndex < startIndex){
+    if (startIndex < 0 || endIndex > count || endIndex < startIndex){
         throw std::invalid_argument("IndexOutOfRange");
     }
     int len = endIndex - startIndex;
@@ -143,27 +94,58 @@ ArraySequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex)
     for (int i = 0; i < len; ++i){
         data[i] = items->Get(startIndex + i);
     }
-    MutabelArraySequence<T>* subSeq = new MutableArraySequence<T>(data, len);
+    ArraySequence<T>* subSeq = new ArraySequence<T>(data, len);
     delete[] data;
     return subSeq;
 }
 
 template <typename T>
-Sequence<T>* ArraySequence<T>::Append(const T& item){
-    return Instance()->AppendInternal(item);
+ArraySequence<T>* ArraySequence<T>::Append(T item){
+    if (count == capacity){
+        capacity = 2 * capacity;
+        items->Resize(capacity);
+    }
+    items->Set(count, item);
+    count++;
+    return this;
 }
 
 template <typename T>
-Sequence<T>* ArraySequence<T>::Prepend(const T& item){
-    return Instance()->PrependInternal(item);
+ArraySequence<T>* ArraySequence<T>::Prepend(T item){
+    if (count == capacity){
+        capacity = 2 * capacity;
+        items->Resize(capacity);
+    }
+    for (int i = count; i > 0; i--){
+        items->Set(i, items->Get(i - 1));
+    }
+    items->Set(0, item);
+    count++;
+    return this;
 }
 
 template <typename T>
-Sequence<T>* ArraySequence<T>::InsertAt(const T& item, int index){
-    return Instance()->InsertAtInternal(item, index);
+ArraySequence<T>* ArraySequence<T>::InsertAt(T item, int index){
+    if (index < 0 || index > count){
+        throw std::invalid_argument("IndexOutOfRange");
+    }
+    if (count == capacity){
+        capacity = 2 * capacity;
+        items->Resize(capacity);
+    }
+    for (int i = count; i > index; i--){
+        items->Set(i, items->Get(i - 1));
+    }
+    items->Set(index, item);
+    count++;
+    return this;
 }
 
 template <typename T>
 Sequence<T>* ArraySequence<T>::Concat(Sequence<T>* array){
-    return Instance()->ConcatInternal(array);
+    Sequence<T>* newSeq = new ArraySequence<T>(*this);
+    for (int i = 0; i < list->GetLength(); i++) {
+        newSeq->Append(array->Get(i));
+    }
+    return newSeq;  
 }
