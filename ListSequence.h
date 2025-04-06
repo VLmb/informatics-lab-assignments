@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <functional>
 #include "Sequence.h"
 #include "LinkedList.h"
 
@@ -52,6 +53,14 @@ public:
     virtual T& operator[](int index) override;
     virtual bool operator==(const Sequence<T>& otherList) override;
     virtual bool operator!=(const Sequence<T>& otherList) override;
+
+    Sequence<T>* Map(std::function<T(const T&)> f);
+    T Reduce(std::function<T(const T&, const T&)> f, T initial);
+    Sequence<T>* Find(std::function<bool(const T&)> f);
+    template<typename K>
+    Sequence<std::tuple<T, K>>* Zip(ListSequence<K>& otherList);
+    template<typename K, typename P>
+    std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
 };
 
 template <typename T>
@@ -146,4 +155,62 @@ Sequence<T>* ListSequence<T>::InsertAt(const T& item, int index) {
 template<typename T>
 Sequence<T>* ListSequence<T>::Concat(Sequence<T>* otherList) {
     return Instance()->ConcatInternal(list);
+}
+
+template<typename T>
+Sequence<T>* ListSequence<T>::Map(std::function<T(const T&)> f){
+    MutableListSequence<T>* result = new MutableListSequence<T>();
+    for (int i = 0; i < this->GetLength(); ++i){
+        result->Append(f(this->Get(i)));
+    }
+    return result;
+}
+
+template<typename T>
+T ListSequence<T>::Reduce(std::function<T(const T&, const T&)> f, T initial) {
+    T result = initial;
+    for (int i = 0; i < this->GetLength(); ++i){
+        result = f(result, this->Get(i));
+    }
+    return result;
+}
+
+template<typename T>
+Sequence<T>* ListSequence<T>::Find(std::function<bool(const T&)> f){
+    MutableListSequence<T>* result = new MutableListSequence<T>();
+    for (int i = 0; i < this->GetLength; ++i){
+        T cur = this->Get(i);
+        if(f(cur)){
+            result->Append(cur);
+        }
+    }
+    return result;
+}
+
+template<typename T>
+template<typename K>
+Sequence<std::tuple<T, K>>* ListSequence<T>::Zip(ListSequence<K>& otherList){
+    MutableListSequence<std::tuple<T, K>>* result = new MutableListSequence<std::tuple<T, K>>();
+    int size = (count < otherList->GetLength()) ? count : otherList->GetLength();
+    for (int i = 0; i < size; ++i){
+        result->Append(std::make_tuple(this->Get(i), otherList->Get(i)));
+    }
+    return result;
+}
+
+template<typename T>
+template<typename K, typename P>
+std::tuple<Sequence<K>*, Sequence<P>*> ListSequence<T>::Unzip() {
+    //НЕОБХОДИМО ПРОВЕРИТЬ, ЯВЛЯЕТСЯ ЛИ ПЕРЕДАННОЕ КОРТЕЖЕМ
+
+    MutableListSequence<U>* firstSeq = new MutableListSequence<K>();
+    MutableListSequence<V>* secondSeq = new MutableListSequence<P>();
+
+    for (int i = 0; i < count; ++i) {
+        T tuple = items->Get(i);
+        firstSeq->Append(std::get<0>(tuple));
+        secondSeq->Append(std::get<1>(tuple));
+    }
+
+    return std::make_tuple(firstSeq, secondSeq);
 }

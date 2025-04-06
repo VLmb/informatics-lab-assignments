@@ -1,4 +1,6 @@
 #include <stdexcept>
+#include <functional>
+#include <tuple>
 #include "Sequence.h"
 #include "DynamicArray.h"
 
@@ -78,6 +80,14 @@ public:
     virtual T& operator[](int index) override;
     virtual bool operator==(const Sequence<T>& otherList) override;
     virtual bool operator!=(const Sequence<T>& otherList) override;
+
+    Sequence<T>* Map(std::function<T(const T&)> f);
+    T Reduce(std::function<T(const T&, const T&)>, T initial);
+    Sequence<T>* Find(std::function<bool(const T&)> f);
+    template<typename K>
+    Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList);
+    template<typename K, typename P>
+    std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
 };
 
 template <typename T>
@@ -205,4 +215,62 @@ Sequence<T>* ArraySequence<T>::InsertAt(const T& item, int index){
 template <typename T>
 Sequence<T>* ArraySequence<T>::Concat(Sequence<T>* array){
     return Instance()->ConcatInternal(array);
+}
+
+template <typename T>
+Sequence<T>* ArraySequence<T>::Map(std::function<T(const T&)> f){
+    MutableArraySequence<T>* result = new MutableArraySequence<T>();
+    for (int i = 0; i < count; ++i){
+        result->Append(f(items->Get(i)));
+    }
+    return result;
+}
+
+template <typename T>
+T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)>, T initial){
+    T result = initial;
+    for (int i = 0; i < count; ++i){
+        result = f(result, items->Get[i]);
+    }
+    return result;
+}
+
+template<typename T>
+Sequence<T>* ArraySequence<T>::Find(std::function<bool(const T&)> f){
+    MutableArraySequence<T>* result = new MutableArraySequence<T>();
+    for (int i = 0; i < count; ++i){
+        T cur = items->Get(i);
+        if (f(cur)){
+            result->Append(cur);
+        }
+    }
+    return result;
+}
+
+template<typename T>
+template<typename K>
+Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList){
+    MutableArraySequence<std::tuple<T, K>>* result = new MutableArraySequence<std::tuple<T, K>>();
+    int size = (count < otherList->GetLength()) ? count : otherList->GetLength();
+    for (int i = 0; i < size; ++i){
+        result->Append(std::make_tuple(this->Get(i), otherList->Get(i)));
+    }
+    return result;
+}
+
+template<typename T>
+template<typename K, typename P>
+std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() {
+    //НЕОБХОДИМО ПРОВЕРИТЬ, ЯВЛЯЕТСЯ ЛИ ПЕРЕДАННОЕ КОРТЕЖЕМ
+
+    MutableArraySequence<U>* firstSeq = new MutableArraySequence<K>();
+    MutableArraySequence<V>* secondSeq = new MutableArraySequence<P>();
+
+    for (int i = 0; i < count; ++i) {
+        T tuple = items->Get(i);
+        firstSeq->Append(std::get<0>(tuple));
+        secondSeq->Append(std::get<1>(tuple));
+    }
+
+    return std::make_tuple(firstSeq, secondSeq);
 }

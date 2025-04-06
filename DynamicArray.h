@@ -15,6 +15,7 @@ public:
     void Set(int index, T value);
     size_t GetSize() const;
     void Resize(int newSize);
+
 };
 
 template<typename T>
