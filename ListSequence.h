@@ -48,22 +48,51 @@ public:
     virtual Sequence<T>* InsertAt(const T& item, int index) override;
     virtual Sequence<T>* Concat(Sequence<T>* list) override;
 
-
+    virtual const T& operator[](int index) const override;
+    virtual T& operator[](int index) override;
+    virtual bool operator==(const Sequence<T>& otherList) override;
+    virtual bool operator!=(const Sequence<T>& otherList) override;
 };
+
+template <typename T>
+const T& ListSequence<T>::operator[](int index) const {
+    if (index < 0 || index >= count){
+        throw std::invalid_argument("IndexOutOfRange");
+    }
+    return items->Get(index);
+}
+
+template <typename T>
+T& ListSequence<T>::operator[](int index){
+    if (index < 0 || index >= count){
+        throw std::invalid_argument("IndexOutOfRange");
+    }
+    return items->Get(index);
+}
+
+template <typename T>
+bool ListSequence<T>::operator==(const Sequence<T>& otherList){
+    return items->Equal(otherList);
+}
+
+template <typename T>
+bool ListSequence<T>::operator!=(const Sequence<T>& otherList){
+    return !(items->Equal(otherList));
+}
 
 template<typename T>
 ListSequence<T>::ListSequence(T* items, int count){
-    list = new LinkedList<T>(items, count);
+    items = new LinkedList<T>(items, count);
 }
 
 template<typename T>
 ListSequence<T>::ListSequence(){
-    list = new LinkedList<T>();
+    items = new LinkedList<T>();
 }
 
 template<typename T>
 ListSequence<T>::ListSequence(const LinkedList<T>& otherList){
-    list = new LinkedList<T>(otherList);
+    items = new LinkedList<T>(otherList);
 }
 
 template<typename T>

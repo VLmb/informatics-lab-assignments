@@ -9,5 +9,4 @@ protected:
  public:
     MutableArraySequence(T* items, int count) : ArraySequence<T>(items, count) {}
     MutableArraySequence() : ArraySequence<T>() {}
-    
 };

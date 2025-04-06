@@ -24,6 +24,7 @@ public:
     T Get(int index) const;
     LinkedList<T>* GetSubList(int startIndex, int endIndex) const;
     int GetLength() const;
+    bool Equal(LinkedList<T>& otherList) const;
 
     void Append(T item);
     void Prepend(T item);
@@ -179,4 +180,21 @@ LinkedList<T>::~LinkedList() {
     head = nullptr;
     tail = nullptr;
     size = 0;
+}
+
+template<typename T>
+bool LinkedList<T>::Equal(LinkedList<T>& otherList) const {
+    if (this->size != otherList->size){
+        return false;
+    }
+    Node* thisEl = this->head;
+    Node* otherEl = otherList->head;
+    while (thisEl != nullptr){
+        if (thisEl->data != otherEl->data){
+            return false;
+        }
+        thisEl = thisEl->next;
+        otherEl = otherList->next;
+    }
+    return true;
 }

@@ -73,7 +73,46 @@ public:
     virtual Sequence<T>* Prepend(const T& item) override;
     virtual Sequence<T>* InsertAt(const T& item, int index) override;
     virtual Sequence<T>* Concat(Sequence<T>* list) override;
+
+    virtual const T& operator[](int index) const override;
+    virtual T& operator[](int index) override;
+    virtual bool operator==(const Sequence<T>& otherList) override;
+    virtual bool operator!=(const Sequence<T>& otherList) override;
 };
+
+template <typename T>
+const T& ArraySequence<T>::operator[](int index) const {
+    if (index < 0 || index >= count){
+        throw std::invalid_argument("IndexOutOfRange");
+    }
+    return items->Get(index);
+}
+
+template <typename T>
+T& ArraySequence<T>::operator[](int index){
+    if (index < 0 || index >= count){
+        throw std::invalid_argument("IndexOutOfRange");
+    }
+    return items->Get(index);
+}
+
+template <typename T>
+bool ArraySequence<T>::operator==(const Sequence<T>& otherList){
+    if (this->count != otherList.GetLength()){ return false; }
+    for (int i = 0; i < count; ++i){
+        if ((*this)[i] != otherList[i]){ return false; }
+    }
+    return true;
+}
+
+template <typename T>
+bool ArraySequence<T>::operator!=(const Sequence<T>& otherList){
+    if (this->count != otherList.GetLength()){ return true; }
+    for (int i = 0; i < count; ++i){
+        if ((*this)[i] != otherList[i]){ return true; }
+    }
+    return false;
+}
 
 template <typename T>
 ArraySequence<T>::ArraySequence(T* items, int count){

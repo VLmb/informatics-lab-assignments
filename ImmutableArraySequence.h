@@ -1,5 +1,11 @@
+#include <stdexcept>
+
 template <typename T>
 class ImmutableArraySequence : public ArraySequence<T> {
+private:
+    T& operator[](int index) override {
+        throw std::logic_error("НИЧЕГО ДРУГОГО НЕ ПРИДУМАЛ");
+    }
 protected:
     Sequence<T>* Instance() override {
         MutableArraySequence<T>* newArray = new MutableArraySequence<T>(this->items->GetData(), this->count);
