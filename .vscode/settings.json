@@ -45,6 +45,7 @@
         "iosfwd": "cpp",
         "iostream": "cpp",
         "new": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "complex": "cpp"
     }
 }
