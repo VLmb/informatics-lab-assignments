@@ -194,7 +194,7 @@ bool LinkedList<T>::Equal(LinkedList<T>& otherList) const {
             return false;
         }
         thisEl = thisEl->next;
-        otherEl = otherList->next;
+        otherEl = otherEl->next;
     }
     return true;
 }

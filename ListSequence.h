@@ -61,6 +61,25 @@ public:
     Sequence<std::tuple<T, K>>* Zip(ListSequence<K>& otherList);
     template<typename K, typename P>
     std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
+
+    class Iterator {
+    private:
+        const ListSequence<T>* data;
+        size_t index;
+    public:
+        Iterator(ListSequence<T>* data, size_t& index) : data(data), index(index) {}
+
+        T& Get(){return data->Get(i); }
+        void Next() { index++; }
+
+        T& operator*(){ return data->Get(index); }
+        Iterator& operator++() { index++; return *this; }
+        bool operator!=(const Iterator& other ){ return index != other.index; }
+        bool operator==(const Iterator& other) const { return index == other.index; }
+    };
+
+    Iterator begin() const { return Iterator(this, 0); };
+    Iterator end() const { return Iterator(this, count); };
 };
 
 template <typename T>
@@ -106,7 +125,7 @@ ListSequence<T>::ListSequence(const LinkedList<T>& otherList){
 
 template<typename T>
 ListSequence<T>::~ListSequence(){
-    delete list;
+    delete items;
 }
 
 template<typename T>
@@ -134,7 +153,7 @@ ListSequence<T>* ListSequence<T>::GetSubsequence(int startIndex, int endIndex) c
 
 template<typename T>
 int ListSequence<T>::GetLength() const {
-    return list->GetLength();
+    return items->GetLength();
 }
 
 template<typename T>

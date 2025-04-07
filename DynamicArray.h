@@ -23,7 +23,7 @@ DynamicArray<T>::DynamicArray(T* items, int count) {
     if (count < 0) {
         throw std::invalid_argument("IndexOutOfRange");
     }
-    if (!items) {
+    if (!items && count > 0) {
         throw std::invalid_argument("Nullpointer passed as an arrgument");
     }
     data = new T[count]{};

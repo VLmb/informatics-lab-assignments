@@ -88,6 +88,25 @@ public:
     Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList);
     template<typename K, typename P>
     std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
+
+    class Iterator {
+    private:
+        const ArraySequence* data;
+        size_t index;
+    public:
+        Iterator(ArraySequence<T>* data, size_t& index) : data(data), index(index) {}
+
+        T& Get(){ return data->Get(index); } 
+        void Next(){ index++; }
+
+        T& operator*(){ return data->Get(index); }
+        Iterator& operator++(){ ++index; return *this; }
+        bool operator!=(const Iterator& other){ return index != other.index; }
+        bool operator==(const Iterator& other) const { return index == other.index; }
+    };
+
+    Iterator begin() const { return Iterator(this, 0); };
+    Iterator end() const { return Iterator(this, count); };
 };
 
 template <typename T>
@@ -261,7 +280,8 @@ Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList){
 template<typename T>
 template<typename K, typename P>
 std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() {
-    //НЕОБХОДИМО ПРОВЕРИТЬ, ЯВЛЯЕТСЯ ЛИ ПЕРЕДАННОЕ КОРТЕЖЕМ
+    //Static assert
+    static_assert(std::is_same<T, std::tuple<K, P>>::value, "T must be a tuple<K, P>");
 
     MutableArraySequence<U>* firstSeq = new MutableArraySequence<K>();
     MutableArraySequence<V>* secondSeq = new MutableArraySequence<P>();
