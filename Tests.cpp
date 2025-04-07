@@ -1,18 +1,4 @@
-#include <iostream>
-#include <stdexcept>
-#include "DynamicArray.h"
-#include "LinkedList.h"
-#include "ArraySequence.h"
-#include "ListSequence.h"
-#include "MutableArraySequence.h"
-#include "ImmutableArraySequence.h"
-#include "MutableListSequence.h"
-#include "ImmutableListSequence.h"
-
-class IndexOutOfRange : public std::exception {
-public:
-    const char* what() const noexcept override { return "IndexOutOfRange"; }
-};
+#include "Tests.h"
 
 void assert(bool condition, const std::string& testName) {
     if (condition) {
@@ -28,8 +14,8 @@ bool checkResult(Sequence<T>& seq, T* data, size_t size) {
         for (int i = 0; i < size; ++i) {
             if (seq[i] != data[i]) { return false; }
         }
-    } catch (const IndexOutOfRange& e) {
-        std::cout << "Error: tryna grab smth that ain't there. " << e.what() << "\n";
+    } catch (const std::invalid_argument& e) { // просто стандартная ошибка
+        std::cout << "Oops: " << e.what() << "\n";
         return false;
     }
     return true;
@@ -56,7 +42,7 @@ void testDynamicArray() {
     try {
         arr.Get(5);
         assert(false, "Get with index out of range");
-    } catch (const IndexOutOfRange&) {
+    } catch (const std::invalid_argument&) { // стандартная ошибка
         assert(true, "Get out of range exception");
     }
 
@@ -92,7 +78,7 @@ void testLinkedList() {
     try {
         emptyList.GetFirst();
         assert(false, "GetFirst on empty list");
-    } catch (const IndexOutOfRange&) {
+    } catch (const std::invalid_argument&) { // стандартная
         assert(true, "GetFirst on empty list exception");
     }
 
@@ -123,7 +109,7 @@ void testMutableArraySequence() {
     try {
         seq.InsertAt(100, 10);
         assert(false, "InsertAt out of range");
-    } catch (const IndexOutOfRange&) {
+    } catch (const std::invalid_argument&) {
         assert(true, "InsertAt out of range exception");
     }
 
@@ -172,7 +158,7 @@ void testImmutableArraySequence() {
     try {
         seq[0] = 5;
         assert(false, "Immutable operator[] write");
-    } catch (const std::logic_error&) {
+    } catch (const std::logic_error&) { // оставим как было, это не IndexOutOfRange
         assert(true, "Immutable operator[] write exception");
     }
 }
@@ -197,7 +183,7 @@ void testMutableListSequence() {
     try {
         seq.InsertAt(100, 10);
         assert(false, "InsertAt out of range");
-    } catch (const IndexOutOfRange&) {
+    } catch (const std::invalid_argument&) {
         assert(true, "InsertAt out of range exception");
     }
 
