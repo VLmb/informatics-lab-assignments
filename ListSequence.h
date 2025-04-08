@@ -54,13 +54,13 @@ public:
     virtual bool operator==(const Sequence<T>& otherList) override;
     virtual bool operator!=(const Sequence<T>& otherList) override;
 
-    Sequence<T>* Map(std::function<T(const T&)> f);
-    T Reduce(std::function<T(const T&, const T&)> f, T initial);
-    Sequence<T>* Find(std::function<bool(const T&)> f);
+    virtual Sequence<T>* Map(std::function<T(const T&)> f) const override;
+    virtual T Reduce(std::function<T(const T&, const T&)> f, T initial) const override;
+    virtual Sequence<T>* Find(std::function<bool(const T&)> f) const override;
     template<typename K>
-    Sequence<std::tuple<T, K>>* Zip(ListSequence<K>& otherList);
+    virtual Sequence<std::tuple<T, K>>* Zip(ListSequence<K>& otherList) const override;
     template<typename K, typename P>
-    std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
+    virtual std::tuple<Sequence<K>*, Sequence<P>*> Unzip() const override;
 
     class Iterator {
     private:
@@ -85,7 +85,7 @@ public:
 template <typename T>
 const T& ListSequence<T>::operator[](int index) const {
     if (index < 0 || index >= count){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     return items->Get(index);
 }
@@ -93,7 +93,7 @@ const T& ListSequence<T>::operator[](int index) const {
 template <typename T>
 T& ListSequence<T>::operator[](int index){
     if (index < 0 || index >= count){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     return items->Get(index);
 }
@@ -177,7 +177,7 @@ Sequence<T>* ListSequence<T>::Concat(Sequence<T>* otherList) {
 }
 
 template<typename T>
-Sequence<T>* ListSequence<T>::Map(std::function<T(const T&)> f){
+Sequence<T>* ListSequence<T>::Map(std::function<T(const T&)> f) const {
     MutableListSequence<T>* result = new MutableListSequence<T>();
     for (int i = 0; i < this->GetLength(); ++i){
         result->Append(f(this->Get(i)));
@@ -186,7 +186,7 @@ Sequence<T>* ListSequence<T>::Map(std::function<T(const T&)> f){
 }
 
 template<typename T>
-T ListSequence<T>::Reduce(std::function<T(const T&, const T&)> f, T initial) {
+T ListSequence<T>::Reduce(std::function<T(const T&, const T&)> f, T initial) const {
     T result = initial;
     for (int i = 0; i < this->GetLength(); ++i){
         result = f(result, this->Get(i));
@@ -195,7 +195,7 @@ T ListSequence<T>::Reduce(std::function<T(const T&, const T&)> f, T initial) {
 }
 
 template<typename T>
-Sequence<T>* ListSequence<T>::Find(std::function<bool(const T&)> f){
+Sequence<T>* ListSequence<T>::Find(std::function<bool(const T&)> f) const {
     MutableListSequence<T>* result = new MutableListSequence<T>();
     for (int i = 0; i < this->GetLength; ++i){
         T cur = this->Get(i);
@@ -208,7 +208,7 @@ Sequence<T>* ListSequence<T>::Find(std::function<bool(const T&)> f){
 
 template<typename T>
 template<typename K>
-Sequence<std::tuple<T, K>>* ListSequence<T>::Zip(ListSequence<K>& otherList){
+Sequence<std::tuple<T, K>>* ListSequence<T>::Zip(ListSequence<K>& otherList) const {
     MutableListSequence<std::tuple<T, K>>* result = new MutableListSequence<std::tuple<T, K>>();
     int size = (count < otherList->GetLength()) ? count : otherList->GetLength();
     for (int i = 0; i < size; ++i){
@@ -219,7 +219,7 @@ Sequence<std::tuple<T, K>>* ListSequence<T>::Zip(ListSequence<K>& otherList){
 
 template<typename T>
 template<typename K, typename P>
-std::tuple<Sequence<K>*, Sequence<P>*> ListSequence<T>::Unzip() {
+std::tuple<Sequence<K>*, Sequence<P>*> ListSequence<T>::Unzip() const {
     //НЕОБХОДИМО ПРОВЕРИТЬ, ЯВЛЯЕТСЯ ЛИ ПЕРЕДАННОЕ КОРТЕЖЕМ
 
     MutableListSequence<U>* firstSeq = new MutableListSequence<K>();

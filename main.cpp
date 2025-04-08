@@ -19,13 +19,5 @@ class Container {
 };
 
 int main(){
-    std::string* data = new std::string[100]{};
-
-    for (int i = 0; i < 100; ++i){
-        std::cout << "dfd" << " ";
-        std::cout << data[i] << " ";
-    }
-
-    int (*ptr)(int) = f;
-    std::function<int(int)> func = f;
+    std::cout<<"Привет";
 }

@@ -18,5 +18,12 @@ public:
     virtual T& operator[](int index) = 0;
     virtual bool operator==(const Sequence<T>& otherList) = 0;
     virtual bool operator!=(const Sequence<T>& otherList) = 0;
-    
+
+    virtual Sequence<T>* Map(std::function<T(const T&)> f) const = 0;
+    virtual T Reduce(std::function<T(const T&, const T&)>, T initial) const = 0;
+    virtual Sequence<T>* Find(std::function<bool(const T&)> f) const = 0;
+    template<typename K>
+    virtual Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const = 0;
+    template<typename K, typename P>
+    virtual std::tuple<Sequence<K>*, Sequence<P>*> Unzip() const = 0;
 };

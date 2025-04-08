@@ -21,10 +21,10 @@ public:
 template<typename T>
 DynamicArray<T>::DynamicArray(T* items, int count) {
     if (count < 0) {
-        throw std::invalid_argument("IndexOutOfRange");
+        throw NotValidArgument;
     }
     if (!items && count > 0) {
-        throw std::invalid_argument("Nullpointer passed as an arrgument");
+        throw NullPointerPassedAsArgument;
     }
     data = new T[count]{};
     size = count;
@@ -36,7 +36,7 @@ DynamicArray<T>::DynamicArray(T* items, int count) {
 template<typename T>
 DynamicArray<T>::DynamicArray(int size) {
     if (size < 0) {
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     data = new T[size];
     this->size = size;
@@ -59,7 +59,7 @@ DynamicArray<T>::~DynamicArray() {
 template<typename T>
 T DynamicArray<T>::Get(int index) const {
     if (index < 0 || index >= size) {
-        throw std::invalid_argument("Index out of range.");
+        throw IndexOutOfRange;
     }
     return data[index];
 }
@@ -67,7 +67,7 @@ T DynamicArray<T>::Get(int index) const {
 template<typename T>
 void DynamicArray<T>::Set(int index, T value) {
     if (index < 0 || index >= size) {
-        throw std::invalid_argument("Index out of range.");
+        throw IndexOutOfRange;
     }
     data[index] = value;
 }
@@ -80,7 +80,7 @@ size_t DynamicArray<T>::GetSize() const {
 template<typename T>
 void DynamicArray<T>::Resize(int newSize) { 
     if (newSize < 0) {
-        throw std::invalid_argument("Uncorrect size");
+        throw NotValidArgument;
     }
     T* newData = new T[newSize]{};
     int copySize = (size < newSize) ? size : newSize;

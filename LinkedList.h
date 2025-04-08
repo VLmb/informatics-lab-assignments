@@ -39,16 +39,15 @@ LinkedList<T>::LinkedList() : head(nullptr), tail(nullptr), size(0) {}
 template<typename T>
 LinkedList<T>::LinkedList(T* items, int count) : head(nullptr), tail(nullptr), size(0) {
     if (items == nullptr && count > 0){
-        throw std::invalid_argument("Null pointer with positive count");
+        throw NullPointerPassedAsArgument;
     }
     if (count < 0){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw NotValidArgument;
     }
     for (int i = 0; i < count; ++i){
         Append(items[i]);
     }
 }
-
 
 template<typename T>
 LinkedList<T>::LinkedList(const LinkedList<T>& list) : head(nullptr), tail(nullptr), size(0) {
@@ -62,7 +61,7 @@ LinkedList<T>::LinkedList(const LinkedList<T>& list) : head(nullptr), tail(nullp
 template<typename T>
 T LinkedList<T>::GetFirst() const {
     if (!head){
-        throw std::range_error("The list is empty");
+        throw EmptyContainer;
     }
     return head->data;
 }
@@ -70,7 +69,7 @@ T LinkedList<T>::GetFirst() const {
 template<typename T>
 T LinkedList<T>::GetLast() const {
     if (!tail){
-        throw std::range_error("The list is empty");
+        throw EmptyContainer;
     }
     return tail->data;
 }
@@ -78,7 +77,7 @@ T LinkedList<T>::GetLast() const {
 template<typename T>
 T LinkedList<T>::Get(int index) const {
     if (index < 0 || index >= size){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     Node* cur = head;
     for (int i = 0; i < index; ++i){
@@ -90,7 +89,7 @@ T LinkedList<T>::Get(int index) const {
 template<typename T>
 LinkedList<T>* LinkedList<T>::GetSubList(int startIndex, int endIndex) const {
     if (startIndex < 0 || endIndex >= size || startIndex > endIndex) {
-        throw std::invalid_argument("Invalid indices for sublist");
+        throw IndexOutOfRange;
     }
     LinkedList<T>* sublist = new LinkedList<T>();
     Node* cur = head;
@@ -135,7 +134,7 @@ void LinkedList<T>::Prepend(T item){
 template<typename T>
 void LinkedList<T>::InsertAt(T item, int index){
     if (index < 0 || index > size){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     if (index == 0){
         Prepend(item);

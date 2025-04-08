@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <functional>
 #include <tuple>
+#include "Error.h"
 #include "Sequence.h"
 #include "DynamicArray.h"
 
@@ -81,13 +82,13 @@ public:
     virtual bool operator==(const Sequence<T>& otherList) override;
     virtual bool operator!=(const Sequence<T>& otherList) override;
 
-    Sequence<T>* Map(std::function<T(const T&)> f);
-    T Reduce(std::function<T(const T&, const T&)>, T initial);
-    Sequence<T>* Find(std::function<bool(const T&)> f);
+    virtual Sequence<T>* Map(std::function<T(const T&)> f) const override;
+    virtual T Reduce(std::function<T(const T&, const T&)>, T initial) const override;
+    virtual Sequence<T>* Find(std::function<bool(const T&)> f) const override;
     template<typename K>
-    Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList);
+    virtual Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const override;
     template<typename K, typename P>
-    std::tuple<Sequence<K>*, Sequence<P>*> Unzip();
+    virtual std::tuple<Sequence<K>*, Sequence<P>*> Unzip() const override;
 
     class Iterator {
     private:
@@ -112,7 +113,7 @@ public:
 template <typename T>
 const T& ArraySequence<T>::operator[](int index) const {
     if (index < 0 || index >= count){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     return items->Get(index);
 }
@@ -120,7 +121,7 @@ const T& ArraySequence<T>::operator[](int index) const {
 template <typename T>
 T& ArraySequence<T>::operator[](int index){
     if (index < 0 || index >= count){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     return items->Get(index);
 }
@@ -146,7 +147,7 @@ bool ArraySequence<T>::operator!=(const Sequence<T>& otherList){
 template <typename T>
 ArraySequence<T>::ArraySequence(T* items, int count){
     if (count < 0){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw NotValidArgument;
     }
     this->capacity = (count > 0) ? (2 * count) : 1;
     this->count = count;    
@@ -175,7 +176,7 @@ ArraySequence<T>::~ArraySequence(){
 template <typename T>
 T ArraySequence<T>::GetFirst() const {
     if (count == 0){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw EmptyContainer;
     }
     return items->Get(0);
 }
@@ -183,7 +184,7 @@ T ArraySequence<T>::GetFirst() const {
 template <typename T>
 T ArraySequence<T>::GetLast() const {
     if (count == 0){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw EmptyContainer;
     }
     return items->Get(count - 1);
 }
@@ -191,7 +192,7 @@ T ArraySequence<T>::GetLast() const {
 template <typename T>
 T ArraySequence<T>::Get(int index) const {
     if (index < 0 || index >= count){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     return items->Get(index);
 }
@@ -204,7 +205,7 @@ int ArraySequence<T>::GetLength() const {
 template <typename T>
 ArraySequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
     if (startIndex < 0 || endIndex >= count || endIndex < startIndex){
-        throw std::invalid_argument("IndexOutOfRange");
+        throw IndexOutOfRange;
     }
     int len = endIndex - startIndex;
     T* data = new T[len];
@@ -237,7 +238,7 @@ Sequence<T>* ArraySequence<T>::Concat(Sequence<T>* array){
 }
 
 template <typename T>
-Sequence<T>* ArraySequence<T>::Map(std::function<T(const T&)> f){
+Sequence<T>* ArraySequence<T>::Map(std::function<T(const T&)> f) const {
     MutableArraySequence<T>* result = new MutableArraySequence<T>();
     for (int i = 0; i < count; ++i){
         result->Append(f(items->Get(i)));
@@ -246,7 +247,7 @@ Sequence<T>* ArraySequence<T>::Map(std::function<T(const T&)> f){
 }
 
 template <typename T>
-T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)>, T initial){
+T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)>, T initial) const {
     T result = initial;
     for (int i = 0; i < count; ++i){
         result = f(result, items->Get[i]);
@@ -255,7 +256,7 @@ T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)>, T initial){
 }
 
 template<typename T>
-Sequence<T>* ArraySequence<T>::Find(std::function<bool(const T&)> f){
+Sequence<T>* ArraySequence<T>::Find(std::function<bool(const T&)> f) const {
     MutableArraySequence<T>* result = new MutableArraySequence<T>();
     for (int i = 0; i < count; ++i){
         T cur = items->Get(i);
@@ -268,7 +269,7 @@ Sequence<T>* ArraySequence<T>::Find(std::function<bool(const T&)> f){
 
 template<typename T>
 template<typename K>
-Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList){
+Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList) const {
     MutableArraySequence<std::tuple<T, K>>* result = new MutableArraySequence<std::tuple<T, K>>();
     int size = (count < otherList->GetLength()) ? count : otherList->GetLength();
     for (int i = 0; i < size; ++i){
@@ -279,7 +280,7 @@ Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList){
 
 template<typename T>
 template<typename K, typename P>
-std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() {
+std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() const {
     //Static assert
     static_assert(std::is_same<T, std::tuple<K, P>>::value, "T must be a tuple<K, P>");
 
