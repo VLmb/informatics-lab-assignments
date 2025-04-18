@@ -1,0 +1,3 @@
+D:\Apps\CMake\bin\cmake.exe -E rm -f CMakeFiles\SequenceProject.dir/objects.a
+D:\Apps\MinGW\bin\ar.exe qc CMakeFiles\SequenceProject.dir/objects.a @CMakeFiles\SequenceProject.dir\objects1.rsp
+D:\Apps\MinGW\bin\c++.exe -g -g -Wl,--whole-archive CMakeFiles\SequenceProject.dir/objects.a -Wl,--no-whole-archive -o SequenceProject.exe -Wl,--out-implib,libSequenceProject.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\SequenceProject.dir\linkLibs.rsp
