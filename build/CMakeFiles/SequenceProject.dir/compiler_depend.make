@@ -152,10 +152,14 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/include/wchar.h \
   D:/Apps/MinGW/include/wctype.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/array \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/backward/auto_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/backward/binders.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/algorithmfwd.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/alloc_traits.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/allocated_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/allocator.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_base.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_lockfree_defines.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_string.h \
@@ -194,6 +198,10 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/ptr_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/range_access.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/refwrap.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_atomic.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_base.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/sstream.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/std_abs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/std_function.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_algo.h \
@@ -206,6 +214,7 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_iterator_base_funcs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_iterator_base_types.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_pair.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_raw_storage_iter.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_relops.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_tempbuf.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_uninitialized.h \
@@ -215,6 +224,7 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/string_view.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stringfwd.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/uniform_int_dist.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/unique_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/unordered_map.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/uses_allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/vector.tcc \
@@ -232,6 +242,7 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/aligned_buffer.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/alloc_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/atomicity.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/concurrence.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/new_allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/numeric_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/string_conversions.h \
@@ -243,6 +254,7 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/iostream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/istream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/limits \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/memory \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/atomic_word.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/c++allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/c++config.h \
@@ -257,7 +269,10 @@ CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/La
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/new \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/optional \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ostream \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/execution_defs.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/glue_memory_defs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/pstl_config.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/sstream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/stdexcept \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/streambuf \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/string \
@@ -460,10 +475,14 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/include/wchar.h \
   D:/Apps/MinGW/include/wctype.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/array \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/backward/auto_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/backward/binders.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/algorithmfwd.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/alloc_traits.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/allocated_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/allocator.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_base.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_lockfree_defines.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_ios.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/basic_string.h \
@@ -502,6 +521,10 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/ptr_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/range_access.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/refwrap.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_atomic.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_base.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/sstream.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/std_abs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/std_function.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_algo.h \
@@ -514,6 +537,7 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_iterator_base_funcs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_iterator_base_types.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_pair.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_raw_storage_iter.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_relops.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_tempbuf.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_uninitialized.h \
@@ -523,6 +547,7 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/string_view.tcc \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stringfwd.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/uniform_int_dist.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/unique_ptr.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/unordered_map.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/uses_allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/vector.tcc \
@@ -540,6 +565,7 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/aligned_buffer.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/alloc_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/atomicity.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/concurrence.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/new_allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/numeric_traits.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/string_conversions.h \
@@ -551,6 +577,7 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/iostream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/istream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/limits \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/memory \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/atomic_word.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/c++allocator.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/c++config.h \
@@ -565,7 +592,10 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborat
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/new \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/optional \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ostream \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/execution_defs.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/glue_memory_defs.h \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/pstl_config.h \
+  D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/sstream \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/stdexcept \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/streambuf \
   D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/string \
@@ -607,6 +637,8 @@ D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/optional:
 D:/Apps/MinGW/include/alloca.h:
 
 D:/Apps/MinGW/include/errno.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/sstream.tcc:
 
 D:/Programming/Prog_Cpp/Laborator-2/src/ImmutableListSequence.h:
 
@@ -651,6 +683,8 @@ D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/mingw32/bits/c++locale.h:
 D:/Apps/MinGW/include/stdlib.h:
 
 D:/Apps/MinGW/include/sys/stat.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/execution_defs.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/hash_bytes.h:
 
@@ -782,6 +816,8 @@ D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/type_traits.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/initializer_list:
 
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/unique_ptr.h:
+
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ios:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/iostream:
@@ -856,7 +892,17 @@ D:/Programming/Prog_Cpp/Laborator-2/src/Tests.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/array:
 
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/backward/auto_ptr.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/concurrence.h:
+
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/algorithmfwd.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/allocated_ptr.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_base.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/atomic_lockfree_defines.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/hashtable.h:
 
@@ -864,11 +910,19 @@ D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/invoke.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/refwrap.h:
 
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_atomic.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/shared_ptr_base.h:
+
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/std_function.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_algo.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_heap.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_raw_storage_iter.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/stl_relops.h:
 
@@ -887,6 +941,12 @@ D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/bits/vector.tcc:
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/ext/aligned_buffer.h:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/functional:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/memory:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/pstl/glue_memory_defs.h:
+
+D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/sstream:
 
 D:/Apps/MinGW/lib/gcc/mingw32/9.2.0/include/c++/unordered_map:
 
