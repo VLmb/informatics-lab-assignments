@@ -1,11 +1,18 @@
+#ifndef SEQUENCE_H
+#define SEQUENCE_H
+
 #include <iostream>
+#include <stdexcept>
+#include "CustomErrors.h"
+#include <functional>
+
 
 template<typename T>
 class Sequence{
 public:
     virtual T GetFirst() const = 0;
     virtual T GetLast() const = 0;
-    virtual T Get(int index) const = 0;
+    virtual T& Get(int index) const = 0;
     virtual Sequence<T>* GetSubsequence(int startIndex, int endIndex) const = 0;
     virtual int GetLength() const = 0;
 
@@ -23,7 +30,14 @@ public:
     virtual T Reduce(std::function<T(const T&, const T&)>, T initial) const = 0;
     virtual Sequence<T>* Find(std::function<bool(const T&)> f) const = 0;
     template<typename K>
-    virtual Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const = 0;
-    template<typename K, typename P>
-    virtual std::tuple<Sequence<K>*, Sequence<P>*> Unzip() const = 0;
+    Sequence<std::tuple<T, K>>* Zip(Sequence<K>& otherList) const {
+        throw NotImplement;
+    };
+    template<typename K>
+    std::tuple<Sequence<T>*, Sequence<K>*> Unzip() const{
+        throw NotImplement;
+    };
+
 };
+
+#endif

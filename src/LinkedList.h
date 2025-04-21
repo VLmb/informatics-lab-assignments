@@ -1,9 +1,12 @@
+#ifndef LINKED_LIST_ARRAY_H
+#define LINKED_LIST_ARRAY_H
+
 #include <stdexcept>
 
 
 template<typename T>
 class LinkedList{
-private:
+public:
     struct Node{
         T data;
         Node* next;
@@ -16,12 +19,12 @@ private:
 public:
     LinkedList();
     LinkedList(T* items, int count);
-    LinkedList(const LinkedList<T>& list);
+    LinkedList(const LinkedList<T>* list);
     ~LinkedList();
 
     T GetFirst() const;
     T GetLast() const;
-    T Get(int index) const;
+    T& Get(int index) const;
     LinkedList<T>* GetSubList(int startIndex, int endIndex) const;
     int GetLength() const;
     bool Equal(LinkedList<T>& otherList) const;
@@ -50,8 +53,11 @@ LinkedList<T>::LinkedList(T* items, int count) : head(nullptr), tail(nullptr), s
 }
 
 template<typename T>
-LinkedList<T>::LinkedList(const LinkedList<T>& list) : head(nullptr), tail(nullptr), size(0) {
-    Node* cur = list.head;
+LinkedList<T>::LinkedList(const LinkedList<T>* list) : head(nullptr), tail(nullptr), size(0) {
+    if (!list){
+        throw NullPointerPassedAsArgument;
+    }
+    Node* cur = list->head;
     while (cur){
         Append(cur->data);
         cur = cur->next;
@@ -75,7 +81,7 @@ T LinkedList<T>::GetLast() const {
 }
 
 template<typename T>
-T LinkedList<T>::Get(int index) const {
+T& LinkedList<T>::Get(int index) const {
     if (index < 0 || index >= size){
         throw IndexOutOfRange;
     }
@@ -112,13 +118,14 @@ template<typename T>
 void LinkedList<T>::Append(T item) {
     Node* newNode = new Node{item};
     if (!head){
-        head = tail = newNode;
+        this->head = this->tail = newNode;
     }
     else{
-        tail->next = newNode;
-        tail = newNode;
+        this->tail->next = newNode;
+        this->tail = newNode;
     }
     ++size;
+
 }
 
 template<typename T>
@@ -197,3 +204,5 @@ bool LinkedList<T>::Equal(LinkedList<T>& otherList) const {
     }
     return true;
 }
+
+#endif

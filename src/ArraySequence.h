@@ -1,20 +1,24 @@
+#ifndef ARRAY_SEQUENCE_H
+#define ARRAY_SEQUENCE_H
+
 #include <stdexcept>
 #include <functional>
 #include <tuple>
-#include "Error.h"
+#include "CustomErrors.h"
 #include "Sequence.h"
 #include "DynamicArray.h"
+// #include "MutableArraySequence.h"
 
 template <typename T>
 class ArraySequence: public Sequence<T> {
 protected:
     DynamicArray<T>* items;
-    int count;
+    size_t count;
     size_t capacity;
 
-    virtual Sequence<T>* Instance() = 0;
+    virtual ArraySequence<T>* Instance() = 0;
 
-    Sequence<T>* AppendInternal(const T& item){
+    ArraySequence<T>* AppendInternal(const T& item){
         if (count + 1 == capacity){
             capacity = 2*capacity;
             items->Resize(capacity);
@@ -39,7 +43,7 @@ protected:
 
     Sequence<T>* InsertAtInternal(const T& item, int index){
         if (index < 0 || index > count){
-            throw std::invalid_argument("IndexOutOfRange");
+            throw IndexOutOfRange;
         }
         if (count == capacity){
             capacity = 2 * capacity;
@@ -68,8 +72,9 @@ public:
 
     virtual T GetFirst() const override;
     virtual T GetLast() const override;
-    virtual T Get(int index) const override;
+    virtual T& Get(int index) const override;
     virtual ArraySequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
+    T* GetData() const;
     virtual int GetLength() const override;
 
     virtual Sequence<T>* Append(const T& item) override;
@@ -86,16 +91,16 @@ public:
     virtual T Reduce(std::function<T(const T&, const T&)>, T initial) const override;
     virtual Sequence<T>* Find(std::function<bool(const T&)> f) const override;
     template<typename K>
-    virtual Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const override;
-    template<typename K, typename P>
-    virtual std::tuple<Sequence<K>*, Sequence<P>*> Unzip() const override;
+    Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const;
+    template<typename K>
+    std::tuple<Sequence<T>*, Sequence<K>*> Unzip() const;
 
     class Iterator {
     private:
         const ArraySequence* data;
         size_t index;
     public:
-        Iterator(ArraySequence<T>* data, size_t& index) : data(data), index(index) {}
+        Iterator(const ArraySequence<T>* data, size_t index) : data(data), index(index) {}
 
         T& Get(){ return data->Get(index); } 
         void Next(){ index++; }
@@ -109,6 +114,19 @@ public:
     Iterator begin() const { return Iterator(this, 0); };
     Iterator end() const { return Iterator(this, count); };
 };
+
+template<typename T>
+class MutableArraySequence: public ArraySequence<T> {
+protected:
+    ArraySequence<T>* Instance() override {
+        return this;
+    }
+ public:
+    MutableArraySequence(T* items, int count) : ArraySequence<T>(items, count) {}
+    MutableArraySequence() : ArraySequence<T>() {}
+    MutableArraySequence(const ArraySequence<T>& otherArray) : ArraySequence<T>(otherArray) {}
+};
+
 
 template <typename T>
 const T& ArraySequence<T>::operator[](int index) const {
@@ -156,7 +174,7 @@ ArraySequence<T>::ArraySequence(T* items, int count){
 
 template <typename T>
 ArraySequence<T>::ArraySequence(){
-    this->items = new DynamicArray(0);
+    this->items = new DynamicArray<T>(0);
     this->count = 0;
     this->capacity = 1;
 }
@@ -190,7 +208,7 @@ T ArraySequence<T>::GetLast() const {
 }
 
 template <typename T>
-T ArraySequence<T>::Get(int index) const {
+T& ArraySequence<T>::Get(int index) const {
     if (index < 0 || index >= count){
         throw IndexOutOfRange;
     }
@@ -203,16 +221,21 @@ int ArraySequence<T>::GetLength() const {
 }
 
 template <typename T>
+T* ArraySequence<T>::GetData() const {
+    return this->items->GetData();
+}
+
+template <typename T>
 ArraySequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
     if (startIndex < 0 || endIndex >= count || endIndex < startIndex){
         throw IndexOutOfRange;
     }
-    int len = endIndex - startIndex;
+    int len = endIndex - startIndex + 1;
     T* data = new T[len];
     for (int i = 0; i < len; ++i){
         data[i] = items->Get(startIndex + i);
     }
-    MutabelArraySequence<T>* subSeq = new MutableArraySequence<T>(data, len);
+    MutableArraySequence<T>* subSeq = new MutableArraySequence<T>(data, len);
     delete[] data;
     return subSeq;
 }
@@ -247,10 +270,10 @@ Sequence<T>* ArraySequence<T>::Map(std::function<T(const T&)> f) const {
 }
 
 template <typename T>
-T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)>, T initial) const {
+T ArraySequence<T>::Reduce(std::function<T(const T&, const T&)> f, T initial) const {
     T result = initial;
     for (int i = 0; i < count; ++i){
-        result = f(result, items->Get[i]);
+        result = f(result, items->Get(i));
     }
     return result;
 }
@@ -279,13 +302,14 @@ Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList) c
 }
 
 template<typename T>
-template<typename K, typename P>
-std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() const {
-    //Static assert
-    static_assert(std::is_same<T, std::tuple<K, P>>::value, "T must be a tuple<K, P>");
+template<typename K>
+std::tuple<Sequence<T>*, Sequence<K>*> ArraySequence<T>::Unzip() const {
+    if(!std::is_same<T, std::tuple<T, K>>::value){
+        throw NotValidArgument;
+    }
 
-    MutableArraySequence<U>* firstSeq = new MutableArraySequence<K>();
-    MutableArraySequence<V>* secondSeq = new MutableArraySequence<P>();
+    MutableArraySequence<T>* firstSeq = new MutableArraySequence<T>();
+    MutableArraySequence<K>* secondSeq = new MutableArraySequence<K>();
 
     for (int i = 0; i < count; ++i) {
         T tuple = items->Get(i);
@@ -295,3 +319,5 @@ std::tuple<Sequence<K>*, Sequence<P>*> ArraySequence<T>::Unzip() const {
 
     return std::make_tuple(firstSeq, secondSeq);
 }
+
+#endif

@@ -3,14 +3,8 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "DynamicArray.h"
-#include "LinkedList.h"
-#include "ArraySequence.h"
-#include "ListSequence.h"
-#include "MutableArraySequence.h"
-#include "ImmutableArraySequence.h"
-#include "MutableListSequence.h"
-#include "ImmutableListSequence.h"
+#include "Sequence.h"
+
 
 void assert(bool condition, const std::string& testName);
 

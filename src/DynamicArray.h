@@ -1,4 +1,8 @@
+#ifndef DYNAMIC_ARRAY_H
+#define DYNAMIC_ARRAY_H
+
 #include <stdexcept>
+#include "CustomErrors.h"
 
 template<typename T>
 class DynamicArray {
@@ -11,7 +15,8 @@ public:
     DynamicArray(const DynamicArray<T>& dynamicArray);
     ~DynamicArray();
     
-    T Get(int index) const;
+    T& Get(int index) const;
+    T* GetData() const;
     void Set(int index, T value);
     size_t GetSize() const;
     void Resize(int newSize);
@@ -57,7 +62,7 @@ DynamicArray<T>::~DynamicArray() {
 }
 
 template<typename T>
-T DynamicArray<T>::Get(int index) const {
+T& DynamicArray<T>::Get(int index) const {
     if (index < 0 || index >= size) {
         throw IndexOutOfRange;
     }
@@ -65,10 +70,17 @@ T DynamicArray<T>::Get(int index) const {
 }
 
 template<typename T>
+T* DynamicArray<T>::GetData() const {
+    return this->data;
+}
+
+template<typename T>
 void DynamicArray<T>::Set(int index, T value) {
-    if (index < 0 || index >= size) {
+    if (index < 0 || index > size) {
+        std::cout << "this " << index << " " << size << std::endl;
         throw IndexOutOfRange;
     }
+    size++;
     data[index] = value;
 }
 
@@ -91,3 +103,5 @@ void DynamicArray<T>::Resize(int newSize) {
     data = newData;
     size = newSize;
 }
+
+#endif

@@ -1,10 +1,14 @@
+#ifndef IMMUTABLE_ARRAY_H
+#define IMMUTABLE_ARRAY_H
+
 #include <stdexcept>
+#include "CustomErrors.h"
 
 template <typename T>
 class ImmutableArraySequence : public ArraySequence<T> {
 protected:
-    Sequence<T>* Instance() override {
-        MutableArraySequence<T>* newArray = new MutableArraySequence<T>(this->items->GetData(), this->count);
+    ArraySequence<T>* Instance() override {
+        MutableArraySequence<T>* newArray = new MutableArraySequence<T>(*this);
         return newArray;
     }
 public:
@@ -12,6 +16,8 @@ public:
     ImmutableArraySequence() : ArraySequence<T>() {}
 
     T& operator[](int index) override {
-        throw std::logic_error("An attempt to change an immutable object");
+        throw ChangeImmutableType;
     }
 };
+
+#endif
