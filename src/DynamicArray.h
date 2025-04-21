@@ -9,6 +9,7 @@ class DynamicArray {
 private:
     T* data;
     size_t size;
+    size_t capacity;
 public:
     DynamicArray(T* items, int count);
     DynamicArray(int size);
@@ -31,8 +32,9 @@ DynamicArray<T>::DynamicArray(T* items, int count) {
     if (!items && count > 0) {
         throw NullPointerPassedAsArgument;
     }
-    data = new T[count]{};
     size = count;
+    capacity = (size > 0) ? (2 * size) : 1;
+    data = new T[capacity]{};
     for (int i = 0; i < count; ++i) {
         data[i] = items[i];
     }
@@ -43,14 +45,16 @@ DynamicArray<T>::DynamicArray(int size) {
     if (size < 0) {
         throw IndexOutOfRange;
     }
-    data = new T[size];
+    capacity = (size > 0) ? (2 * size) : 1;
+    data = new T[capacity]{};
     this->size = size;
 }
 
 template<typename T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& dynamicArray) {
-    data = new T[dynamicArray.size];
+    data = new T[dynamicArray.capacity]{};
     size = dynamicArray.size;
+    capacity = dynamicArray.capacity;
     for (int i = 0; i < dynamicArray.size; ++i) {
         data[i] = dynamicArray.data[i];
     }
@@ -76,12 +80,14 @@ T* DynamicArray<T>::GetData() const {
 
 template<typename T>
 void DynamicArray<T>::Set(int index, T value) {
-    if (index < 0 || index > size) {
+    if (index < 0 || index >= size + 1) {
         std::cout << "this " << index << " " << size << std::endl;
         throw IndexOutOfRange;
     }
-    size++;
     data[index] = value;
+    if (index == size) {
+        size++;
+    }
 }
 
 template<typename T>
@@ -97,11 +103,12 @@ void DynamicArray<T>::Resize(int newSize) {
     T* newData = new T[newSize]{};
     int copySize = (size < newSize) ? size : newSize;
     for (int i = 0; i < copySize; ++i) {
-    newData[i] = data[i];
+        newData[i] = data[i];
     }
     delete[] data;
     data = newData;
-    size = newSize;
+    capacity = newSize;
+    size = (newSize < size) ? newSize : size;
 }
 
 #endif

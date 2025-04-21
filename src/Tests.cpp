@@ -140,8 +140,9 @@ void testMutableArraySequence() {
 
     // Reduce - сумма с начальным значением
     auto sum = [](int a, int b) { return a + b; };
+    //0, 1, 10, 2, 3, 4, 1, 2, 3
     int red_result = seq.Reduce(sum, 10);
-    // std::cout << red_result << "\n";   
+    std::cout << red_result << "\n";   
     assert_custom(red_result == 36, "Reduce"); // 10 (initial) + 0 + 1 + 10 + 2 + 3 + 4 + 1 + 2 + 3
 
     // Iter - пробежка по итератору
