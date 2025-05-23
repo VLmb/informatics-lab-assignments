@@ -75,57 +75,57 @@ CMakeFiles/SequenceProject.dir/src/main.cpp.obj: CMakeFiles/SequenceProject.dir/
 CMakeFiles/SequenceProject.dir/src/main.cpp.obj: D:/Programming/Prog_Cpp/Laborator-2/src/main.cpp
 CMakeFiles/SequenceProject.dir/src/main.cpp.obj: CMakeFiles/SequenceProject.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Programming\Prog_Cpp\Laborator-2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SequenceProject.dir/src/main.cpp.obj"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/main.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\main.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\main.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/main.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\main.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\main.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp
 
 CMakeFiles/SequenceProject.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SequenceProject.dir/src/main.cpp.i"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp > CMakeFiles\SequenceProject.dir\src\main.cpp.i
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp > CMakeFiles\SequenceProject.dir\src\main.cpp.i
 
 CMakeFiles/SequenceProject.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SequenceProject.dir/src/main.cpp.s"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp -o CMakeFiles\SequenceProject.dir\src\main.cpp.s
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\main.cpp -o CMakeFiles\SequenceProject.dir\src\main.cpp.s
 
 CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj: CMakeFiles/SequenceProject.dir/flags.make
 CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj: D:/Programming/Prog_Cpp/Laborator-2/src/Tests.cpp
 CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj: CMakeFiles/SequenceProject.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Programming\Prog_Cpp\Laborator-2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\Tests.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\Tests.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\Tests.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\Tests.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp
 
 CMakeFiles/SequenceProject.dir/src/Tests.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SequenceProject.dir/src/Tests.cpp.i"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp > CMakeFiles\SequenceProject.dir\src\Tests.cpp.i
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp > CMakeFiles\SequenceProject.dir\src\Tests.cpp.i
 
 CMakeFiles/SequenceProject.dir/src/Tests.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SequenceProject.dir/src/Tests.cpp.s"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp -o CMakeFiles\SequenceProject.dir\src\Tests.cpp.s
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\Tests.cpp -o CMakeFiles\SequenceProject.dir\src\Tests.cpp.s
 
 CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: CMakeFiles/SequenceProject.dir/flags.make
 CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: D:/Programming/Prog_Cpp/Laborator-2/src/Interface.cpp
 CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj: CMakeFiles/SequenceProject.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Programming\Prog_Cpp\Laborator-2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\Interface.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\Interface.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\Interface.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\Interface.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp
 
 CMakeFiles/SequenceProject.dir/src/Interface.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SequenceProject.dir/src/Interface.cpp.i"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp > CMakeFiles\SequenceProject.dir\src\Interface.cpp.i
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp > CMakeFiles\SequenceProject.dir\src\Interface.cpp.i
 
 CMakeFiles/SequenceProject.dir/src/Interface.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SequenceProject.dir/src/Interface.cpp.s"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp -o CMakeFiles\SequenceProject.dir\src\Interface.cpp.s
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\Interface.cpp -o CMakeFiles\SequenceProject.dir\src\Interface.cpp.s
 
 CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj: CMakeFiles/SequenceProject.dir/flags.make
 CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj: D:/Programming/Prog_Cpp/Laborator-2/src/CustomErrors.cpp
 CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj: CMakeFiles/SequenceProject.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Programming\Prog_Cpp\Laborator-2\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj -MF CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.obj.d -o CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.obj -c D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp
 
 CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.i"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp > CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.i
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp > CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.i
 
 CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.s"
-	D:\Apps\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp -o CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.s
+	D:\Apps\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.cpp -o CMakeFiles\SequenceProject.dir\src\CustomErrors.cpp.s
 
 # Object files for target SequenceProject
 SequenceProject_OBJECTS = \

@@ -41,6 +41,15 @@ protected:
         return this;   
     }
 
+    Sequence<T>* DeleteInternal(int index){
+        if (index < 0 || index >= count){
+            throw IndexOutOfRange;
+        }
+        items->Delete(index);
+        count--;
+        return this;
+    }
+
     Sequence<T>* InsertAtInternal(const T& item, int index){
         if (index < 0 || index > count){
             throw IndexOutOfRange;
@@ -58,7 +67,8 @@ protected:
     }
 
     Sequence<T>* ConcatInternal(Sequence<T>* array){
-        for (int i = 0; i < array->GetLength(); i++) {
+        int size = array->GetLength();
+        for (int i = 0; i < size; i++) {
             this->Append(array->Get(i));
         }
         return this;  
@@ -76,6 +86,7 @@ public:
     virtual ArraySequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
     T* GetData() const;
     virtual int GetLength() const override;
+    virtual Sequence<T>* Delete(int index) override;
 
     virtual Sequence<T>* Append(const T& item) override;
     virtual Sequence<T>* Prepend(const T& item) override;
@@ -92,8 +103,8 @@ public:
     virtual Sequence<T>* Find(std::function<bool(const T&)> f) const override;
     template<typename K>
     Sequence<std::tuple<T, K>>* Zip(ArraySequence<K>& otherList) const;
-    template<typename K>
-    std::tuple<Sequence<T>*, Sequence<K>*> Unzip() const;
+    template<typename U, typename K>
+    std::tuple<Sequence<U>*, Sequence<K>*> Unzip() const;
 
     class Iterator {
     private:
@@ -221,6 +232,11 @@ int ArraySequence<T>::GetLength() const {
 }
 
 template <typename T>
+Sequence<T>* ArraySequence<T>::Delete(int index){
+    return Instance()->DeleteInternal(index);
+}
+
+template <typename T>
 T* ArraySequence<T>::GetData() const {
     return this->items->GetData();
 }
@@ -302,12 +318,10 @@ Sequence<std::tuple<T, K>>* ArraySequence<T>::Zip(ArraySequence<K>& otherList) c
 }
 
 template<typename T>
-template<typename K>
-std::tuple<Sequence<T>*, Sequence<K>*> ArraySequence<T>::Unzip() const {
-    if(!std::is_same<T, std::tuple<T, K>>::value){
-        throw NotValidArgument;
-    }
-
+template<typename U, typename K>
+std::tuple<Sequence<U>*, Sequence<K>*> ArraySequence<T>::Unzip() const {
+    static_assert(std::is_same<T, std::tuple<U, K>>::value);
+    
     MutableArraySequence<T>* firstSeq = new MutableArraySequence<T>();
     MutableArraySequence<K>* secondSeq = new MutableArraySequence<K>();
 

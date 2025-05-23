@@ -111,8 +111,10 @@ CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj: \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\ostream.tcc \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\istream \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\istream.tcc \
- D:\Programming\Prog_Cpp\Laborator-2\src\Sequence.h \
+ D:\Programming\Prog_Cpp\Laborator-2\src\DynamicArray.h \
  D:\Programming\Prog_Cpp\Laborator-2\src\CustomErrors.h \
+ D:\Programming\Prog_Cpp\Laborator-2\src\LinkedList.h \
+ D:\Programming\Prog_Cpp\Laborator-2\src\ArraySequence.h \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\functional \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\tuple \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\utility \
@@ -142,9 +144,7 @@ CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj: \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_heap.h \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_tempbuf.h \
  d:\apps\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\uniform_int_dist.h \
- D:\Programming\Prog_Cpp\Laborator-2\src\DynamicArray.h \
- D:\Programming\Prog_Cpp\Laborator-2\src\LinkedList.h \
- D:\Programming\Prog_Cpp\Laborator-2\src\ArraySequence.h \
+ D:\Programming\Prog_Cpp\Laborator-2\src\Sequence.h \
  D:\Programming\Prog_Cpp\Laborator-2\src\ListSequence.h \
  D:\Programming\Prog_Cpp\Laborator-2\src\ImmutableArraySequence.h \
  D:\Programming\Prog_Cpp\Laborator-2\src\ImmutableListSequence.h

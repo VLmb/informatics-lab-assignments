@@ -1,10 +1,4 @@
 #include "Tests.h"
-#include "DynamicArray.h"
-#include "LinkedList.h"
-#include "ArraySequence.h"
-#include "ListSequence.h"
-#include "ImmutableArraySequence.h"
-#include "ImmutableListSequence.h"
 
 void assert_custom(bool condition, const std::string& testName) {
     if (condition) {
@@ -27,6 +21,30 @@ bool checkResult(Sequence<T>& seq, T* data, size_t size) {
     }
     return true;
 }
+template<typename T>
+bool checkResult(DynamicArray<T>& array, T* data, size_t size) {
+    try {
+        for (int i = 0; i < size; ++i) {
+            if (array.Get(i) != data[i]) { return false; }
+        }
+    } catch (Errors error) {
+        checkErrors(error);
+        return false;
+    }
+    return true;
+}
+template<typename T>
+bool checkResult(LinkedList<T>& list, T* data, size_t size) {
+    try {
+        for (int i = 0; i < size; ++i) {
+            if (list.Get(i) != data[i]) { return false; }
+        }
+    } catch (Errors error) {
+        checkErrors(error);
+        return false;
+    }
+    return true;
+}
 
 void testDynamicArray() {
     std::cout << "\n=== Testing DynamicArray ===\n";
@@ -35,7 +53,7 @@ void testDynamicArray() {
     int data[] = {1, 2, 3};
     DynamicArray<int> arr(data, 3);
     assert_custom(arr.GetSize() == 3, "Constructor with items size");
-    assert_custom(arr.Get(0) == 1 && arr.Get(2) == 3, "Constructor with items values");
+    assert_custom(checkResult(arr, data, 3), "Constructor with items values");
 
     // ConstrSize - просто размер
     DynamicArray<int> arr2(5);
@@ -43,7 +61,7 @@ void testDynamicArray() {
 
     // CopyConstr - копирование
     DynamicArray<int> arr3(arr);
-    assert_custom(arr3.GetSize() == 3 && arr3.Get(1) == 2, "Copy constructor");
+    assert_custom(checkResult(arr, data, 3), "Copy constructor");
 
     // Get - выход за пределы
     try {
@@ -59,7 +77,8 @@ void testDynamicArray() {
 
     // Resize - урезка
     arr.Resize(2);
-    assert_custom(arr.GetSize() == 2 && arr.Get(1) == 10, "Resize smaller");
+    int data1[2] = {1, 10};
+    assert_custom(arr.GetSize() == 2 && checkResult(arr, data1, 2), "Resize smaller");
 }
 
 void testLinkedList() {
@@ -72,12 +91,14 @@ void testLinkedList() {
     // Append/Prepend - добавление в конец и начало
     list.Append(1);
     list.Prepend(0);
-    assert_custom(list.GetLength() == 2 && list.GetFirst() == 0 && list.GetLast() == 1, "Append and Prepend");
+    int data[] = {0, 1};
+    assert_custom(checkResult(list, data, 2), "Append and Prepend");
 
     // SubList - выдернуть кусок
     list.Append(2);
     LinkedList<int>* subList = list.GetSubList(1, 2);
-    assert_custom(subList->GetLength() == 2 && subList->Get(0) == 1, "GetSubList");
+    int data1[] = {1, 2};
+    assert_custom(subList->GetLength() == 2 && checkResult(*subList, data1, 2), "GetSubList");
     delete subList;
 
     // GetFirst - пустой список, должен бахнуть
@@ -93,7 +114,8 @@ void testLinkedList() {
     LinkedList<int> list2;
     list2.Append(3);
     list.Concat(&list2);
-    assert_custom(list.GetLength() == 4 && list.Get(3) == 3, "Concat");
+    int data2[] = {0, 1, 2, 3};
+    assert_custom(list.GetLength() == 4 && checkResult(list, data2, 4), "Concat");
 }
 
 void testMutableArraySequence() {
@@ -140,9 +162,7 @@ void testMutableArraySequence() {
 
     // Reduce - сумма с начальным значением
     auto sum = [](int a, int b) { return a + b; };
-    //0, 1, 10, 2, 3, 4, 1, 2, 3
-    int red_result = seq.Reduce(sum, 10);
-    std::cout << red_result << "\n";   
+    int red_result = seq.Reduce(sum, 10);  
     assert_custom(red_result == 36, "Reduce"); // 10 (initial) + 0 + 1 + 10 + 2 + 3 + 4 + 1 + 2 + 3
 
     // Iter - пробежка по итератору

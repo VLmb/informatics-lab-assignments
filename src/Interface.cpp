@@ -2,50 +2,44 @@
 #include "Tests.h"
 #include "CustomErrors.h"
 #include <sstream>
-#include <memory>
-#include <limits>
 
 void clearInput() {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(10000, '\n');
 }
 
 template<typename T>
-T getTypedInput(const std::string& prompt) {
-    if (!prompt.empty()){ std::cout << prompt; }
+T getTypedInput() {
     std::string input;
     std::getline(std::cin, input);
-    std::stringstream ss(input);
     T value;
-    if (!(ss >> value)) {
-        throw NotValidArgument;
-    }
-    return value;
-}
-
-int getIntInput(const std::string& prompt) {
-    if (!prompt.empty()){ std::cout << prompt; }
-    std::string input;
-    std::getline(std::cin, input);  
     std::stringstream ss(input);
-    int value;
     if (!(ss >> value)) {
         throw NotValidArgument;
     }
     return value;
 }
 
-std::string getStringInput(const std::string& prompt) {
+int getIntInput() {
     std::string input;
-    std::cout << prompt;
+    std::getline(std::cin, input);
+    int value;
+    std::stringstream ss(input);
+    if (!(ss >> value)) {
+        throw NotValidArgument;
+    }
+    return value;
+}
+
+std::string getStringInput() {
+    std::string input;
     std::getline(std::cin, input);
     return input.empty() ? "Unnamed" : input;
 }
 
 template<typename T>
-MutableArraySequence<T> getArrayInput(const std::string& prompt) {
+MutableArraySequence<T> getArrayInput(std::string type) {
+    std::cout << "Enter space-separated values (type: " << type << "): ";
     std::string input;
-    if (!prompt.empty()){ std::cout << prompt; }
     std::getline(std::cin, input);
     std::stringstream ss(input);
     MutableArraySequence<T> values;
@@ -57,168 +51,210 @@ MutableArraySequence<T> getArrayInput(const std::string& prompt) {
 }
 
 void ShowMenu() {
-    std::cout << "\n===== Menu =====\n";
-    std::cout << "1 - Append (add to end)\n";
-    std::cout << "2 - Prepend (add to start)\n";
-    std::cout << "3 - InsertAt (insert at index)\n";
-    std::cout << "4 - Concat (merge with another)\n";
-    std::cout << "5 - GetSub (get a chunk)\n";
-    std::cout << "6 - Map (square everything)\n";
-    std::cout << "7 - Reduce (sum it up)\n";
-    std::cout << "8 - Print (show sequence)\n";
+    std::cout << "\nChoose an action:\n";
+    std::cout << "1 - Append\n";
+    std::cout << "2 - Prepend\n";
+    std::cout << "3 - InsertAt\n";
+    std::cout << "4 - Pick sequence\n";
+    std::cout << "5 - GetSub\n";
+    std::cout << "6 - Map (sum) \n";
+    std::cout << "7 - Reduce\n";
+    std::cout << "8 - Print\n";
     std::cout << "9 - Create new sequence\n";
-    std::cout << "10 - Pick sequence\n";
-    std::cout << "0 - Exit (quit)\n";
+    std::cout << "10 - Concat (only one type)\n";
+    std::cout << "11 - Delete element by index\n";
+    std::cout << "0 - Exit\n";
 }
 
-std::shared_ptr<InterfaceWrapper> ChooseSequence(std::string& name) {
-    std::cout << "Pick sequence type:\n";
-    std::cout << "1 - MutableArraySequence\n";
-    std::cout << "2 - ImmutableArraySequence\n";
-    std::cout << "3 - MutableListSequence\n";
-    std::cout << "4 - ImmutableListSequence\n";
-    int choice = getIntInput("Your choice: ");
+InterfaceWrapper* ChooseSequence(std::string& name) {
+    bool correct = false;
+    int choice;
+    while (correct != true){
+        std::cout << "Sequence type:\n";
+        std::cout << "1 - MutableArraySequence\n";
+        std::cout << "2 - ImmutableArraySequence\n";
+        std::cout << "3 - MutableListSequence\n";
+        std::cout << "4 - ImmutableListSequence\n";
+        std::cout << "Enter choice (1-4): ";
+        choice = getIntInput();
+        if (choice < 1 || choice > 4){
+            std::cout << "Bad input, try again" << std::endl;
+        }
+        else{
+            correct = true;
+        }
+    }
 
-    std::cout << "Pick data type:\n";
+    std::cout << "Data type:\n";
     std::cout << "1 - int\n";
     std::cout << "2 - float\n";
     std::cout << "3 - string\n";
-    int typeChoice = getIntInput("Your choice: ");
+    std::cout << "Enter choice (1-3): ";
+    int typeChoice;
+    try {
+        typeChoice = getIntInput();
+    }
+    catch (Errors e) {
+        checkErrors(e);
+    }
 
     std::string type;
-    switch (typeChoice) {
-        case 1: type = "int"; break;
-        case 2: type = "float"; break;
-        case 3: type = "string"; break;
-        default: type = "int"; break;
-    }
+    if (typeChoice == 1) type = "int";
+    else if (typeChoice == 2) type = "float";
+    else type = "string";
 
     std::string structure;
     bool immutable;
-    switch (choice) {
-        case 1: structure = "array"; immutable = false; name = "MutableArraySequence<" + type + ">"; break;
-        case 2: structure = "array"; immutable = true; name = "ImmutableArraySequence<" + type + ">"; break;
-        case 3: structure = "list"; immutable = false; name = "MutableListSequence<" + type + ">"; break;
-        case 4: structure = "list"; immutable = true; name = "ImmutableListSequence<" + type + ">"; break;
-        default:
-            structure = "array"; immutable = false; type = "int"; name = "MutableArraySequence<int>";
+    if (choice == 1) {
+        structure = "array";
+        immutable = false;
+        name = "MutableArraySequence<" + type + ">";
+    } else if (choice == 2) {
+        structure = "array";
+        immutable = true;
+        name = "ImmutableArraySequence<" + type + ">";
+    } else if (choice == 3) {
+        structure = "list";
+        immutable = false;
+        name = "MutableListSequence<" + type + ">";
+    } else if (choice == 4) {
+        structure = "list";
+        immutable = true;
+        name = "ImmutableListSequence<" + type + ">";
+    } else {
+        structure = "array";
+        immutable = false;
+        type = "int";
+        name = "MutableArraySequence<int>";
     }
 
     if (type == "int") {
-        MutableArraySequence<int> values = getArrayInput<int>("Enter initial elements (space-separated, or press Enter for empty): ");
-        return std::make_shared<Wrapper<int>>(structure, type, immutable, values.GetData(), values.GetLength());
+        MutableArraySequence<int> values = getArrayInput<int>(type);
+        return new Wrapper<int>(structure, type, immutable, values.GetData(), values.GetLength());
     } else if (type == "float") {
-        MutableArraySequence<float> values = getArrayInput<float>("Enter initial elements (space-separated, or press Enter for empty): ");
-        return std::make_shared<Wrapper<float>>(structure, type, immutable, values.GetData(), values.GetLength());
-    } else if (type == "string") {
-        MutableArraySequence<std::string> values = getArrayInput<std::string>("Enter initial elements (space-separated, or press Enter for empty): ");
-        return std::make_shared<Wrapper<std::string>>(structure, type, immutable, values.GetData(), values.GetLength());
+        MutableArraySequence<float> values = getArrayInput<float>(type);
+        return new Wrapper<float>(structure, type, immutable, values.GetData(), values.GetLength());
+    } else {
+        MutableArraySequence<std::string> values = getArrayInput<std::string>(type);
+        return new Wrapper<std::string>(structure, type, immutable, values.GetData(), values.GetLength());
     }
-    return std::make_shared<Wrapper<int>>("array", "int", false);
 }
 
-void CreateSequence(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& seqs) {
+void CreateSequence(MutableArraySequence<InterfaceWrapper*>& seqs) {
     std::string name;
-    auto newSeq = ChooseSequence(name);
-    std::string customName = getStringInput("Enter name for sequence (or press Enter for default): ");
-    if (!customName.empty() && customName != "Unnamed") name = customName;
+    InterfaceWrapper* newSeq = ChooseSequence(name);
     seqs.Append(newSeq);
     std::cout << "Created new seq, total: " << seqs.GetLength() << "\n";
 }
 
-int PickSequence(const MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& seqs) {
+int PickSequence(MutableArraySequence<InterfaceWrapper*>& seqs) {
     if (seqs.GetLength() == 0) {
-        std::cout << "No sequences yet, creating one\n";
+        std::cout << "No sequences, creating one\n";
         return -1;
     }
-    std::cout << "Available sequences (" << seqs.GetLength() << "):\n";
+    std::cout << "Sequences (" << seqs.GetLength() << "):\n";
     for (int i = 0; i < seqs.GetLength(); i++) {
-        auto seq = seqs.Get(i);
+        InterfaceWrapper* seq = seqs.Get(i);
         std::cout << i << " - " << seq->TypeKey() << ", Structure: " << seq->Structure()
                   << ", Length: " << seq->GetLength() << "\n";
     }
-    int index = getIntInput("Pick seq index: ");
+    std::cout << "Enter sequence index (0 to " << seqs.GetLength() - 1 << "): ";
+    int index = getIntInput();
     if (index < 0 || index >= seqs.GetLength()) {
-        std::cout << "Out of range, picking first one\n";
-        return 0;
+        throw IndexOutOfRange;
     }
     return index;
 }
 
 void runUI() {
-    std::cout << "\n===== Welcome to Sequence Program =====\n";
-    std::cout << "1 - Sequence Constructor (create and work with sequences)\n";
-    std::cout << "2 - Run Test System\n";
-    std::cout << "0 - Exit\n";
-    int initialChoice = getIntInput("Your choice: ");
+    std::cout << "\n===WELCOME TO THE PROGRAMM===\n";
+    bool correct = false;
+    int initialChoice;
+    while (!correct){
+        std::cout << "1 - Sequence Constructor\n";
+        std::cout << "2 - Run Tests\n";
+        std::cout << "0 - Exit\n";
+        std::cout << "Enter choice (0-2): ";
+        try {
+            initialChoice = getIntInput();
+        }
+        catch (Errors e) {
+            checkErrors(e);
+            correct = false;
+        }
+        if (initialChoice < 0 || initialChoice > 2){
+            std::cout << "Bad input, try again" << std::endl;
+        }
+        else{
+            correct = true;
+        }
+    }
 
     if (initialChoice == 0) {
-        std::cout << "Bye!\n";
+        std::cout << "Bye!)\n";
         return;
     } else if (initialChoice == 2) {
-        std::cout << "\nRunning tests...\n";
+        std::cout << "Running tests\n";
         try {
             runTests();
         } catch (Errors error) {
             checkErrors(error);
         }
-        std::cout << "\nTests completed. Exiting.\n";
+        std::cout << "Tests done\n";
         return;
-    } else if (initialChoice != 1) {
-        std::cout << "Invalid choice, starting Sequence Constructor.\n";
     }
 
-    MutableArraySequence<std::shared_ptr<InterfaceWrapper>> sequences;
+    MutableArraySequence<InterfaceWrapper*> sequences;
     int currentSeqIndex = -1;
 
     while (true) {
         if (sequences.GetLength() == 0) {
-            std::cout << "No sequences, let's create one\n";
+            std::cout << "\nNo sequences, creating one\n";
             CreateSequence(sequences);
             currentSeqIndex = 0;
         }
-        auto currentSeq = sequences.Get(currentSeqIndex);
-        std::cout << "Current seq: " << currentSeq->TypeKey() << " (" << currentSeq->Structure()
-                  << ", index " << currentSeqIndex << ")\n";
+        InterfaceWrapper* currentSeq = sequences.Get(currentSeqIndex);
+        // std::cout << "\nCurrent seq: type - " << currentSeq->TypeKey() << "; structure - " << currentSeq->Structure()
+        //           << "; " << currentSeq->GetMutable() <<"; index " << currentSeqIndex << "\n";
         ShowMenu();
-        int choice = getIntInput("Your choice: ");
+        std::cout << "Enter choice (0-11): ";
+        int choice;
+        try {
+            choice = getIntInput();
+        }
+        catch (Errors e) {
+            checkErrors(e);
+        }
 
         if (choice == 0) {
-            std::cout << "Bye!\n";
+            std::cout << "Bye!)\n";
+            for (int i = 0; i < sequences.GetLength(); i++) {
+                delete sequences.Get(i);
+            }
             break;
         }
 
         try {
-            switch (choice) {
-                case 1: currentSeq->doAppend(sequences); break;
-                case 2: currentSeq->doPrepend(sequences); break;
-                case 3: currentSeq->doInsertAt(sequences); break;
-                case 4: {
-                    int otherIndex = PickSequence(sequences);
-                    if (otherIndex >= 0) {
-                        std::shared_ptr<InterfaceWrapper> result;
-                        currentSeq->doConcat(sequences.Get(otherIndex), result);
-                        sequences.Append(result);
-                        std::cout << "Concatenated sequence added as index " << sequences.GetLength() - 1 << "\n";
-                    }
-                    break;
+            if (choice == 1) currentSeq->doAppend(sequences);
+            else if (choice == 2) currentSeq->doPrepend(sequences);
+            else if (choice == 3) currentSeq->doInsertAt(sequences);
+            else if (choice == 4) {
+                currentSeqIndex = PickSequence(sequences);
+                if (currentSeqIndex == -1) {
+                    CreateSequence(sequences);
+                    currentSeqIndex = 0;
                 }
-                case 5: currentSeq->doGetSub(); break;
-                case 6: currentSeq->doMap(sequences, "Squared_" + currentSeq->TypeKey()); break;
-                case 7: currentSeq->doReduce(); break;
-                case 8: currentSeq->doPrint(); break;
-                case 9: CreateSequence(sequences); break;
-                case 10:
-                    currentSeqIndex = PickSequence(sequences);
-                    if (currentSeqIndex == -1) {
-                        CreateSequence(sequences);
-                        currentSeqIndex = 0;
-                    }
-                    std::cout << "Switched to seq " << currentSeqIndex << "\n";
-                    break;
-                default: std::cout << "Wrong choice, try again\n"; continue;
-            }
+                std::cout << "Switched to seq " << currentSeqIndex << "\n";
+            } else if (choice == 5) currentSeq->doGetSub();
+            else if (choice == 6) currentSeq->doMap(sequences);
+            else if (choice == 7) currentSeq->doReduce();
+            else if (choice == 8) currentSeq->doPrint();
+            else if (choice == 9) CreateSequence(sequences);
+            else if (choice == 10) currentSeq->doConcat(sequences);
+            else if (choice == 11) currentSeq->doDelete(sequences);
+            else std::cout << "Wrong choice\n";
         } catch (Errors error) {
             checkErrors(error);
+        }
     }
-}}
+}

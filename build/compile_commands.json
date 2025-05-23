@@ -1,0 +1,26 @@
+[
+{
+  "directory": "D:/Programming/Prog_Cpp/Laborator-2/build",
+  "command": "D:\\Apps\\MinGW\\bin\\g++.exe   -g -g -std=gnu++17 -o CMakeFiles\\SequenceProject.dir\\src\\main.cpp.obj -c D:\\Programming\\Prog_Cpp\\Laborator-2\\src\\main.cpp",
+  "file": "D:/Programming/Prog_Cpp/Laborator-2/src/main.cpp",
+  "output": "CMakeFiles/SequenceProject.dir/src/main.cpp.obj"
+},
+{
+  "directory": "D:/Programming/Prog_Cpp/Laborator-2/build",
+  "command": "D:\\Apps\\MinGW\\bin\\g++.exe   -g -g -std=gnu++17 -o CMakeFiles\\SequenceProject.dir\\src\\Tests.cpp.obj -c D:\\Programming\\Prog_Cpp\\Laborator-2\\src\\Tests.cpp",
+  "file": "D:/Programming/Prog_Cpp/Laborator-2/src/Tests.cpp",
+  "output": "CMakeFiles/SequenceProject.dir/src/Tests.cpp.obj"
+},
+{
+  "directory": "D:/Programming/Prog_Cpp/Laborator-2/build",
+  "command": "D:\\Apps\\MinGW\\bin\\g++.exe   -g -g -std=gnu++17 -o CMakeFiles\\SequenceProject.dir\\src\\Interface.cpp.obj -c D:\\Programming\\Prog_Cpp\\Laborator-2\\src\\Interface.cpp",
+  "file": "D:/Programming/Prog_Cpp/Laborator-2/src/Interface.cpp",
+  "output": "CMakeFiles/SequenceProject.dir/src/Interface.cpp.obj"
+},
+{
+  "directory": "D:/Programming/Prog_Cpp/Laborator-2/build",
+  "command": "D:\\Apps\\MinGW\\bin\\g++.exe   -g -g -std=gnu++17 -o CMakeFiles\\SequenceProject.dir\\src\\CustomErrors.cpp.obj -c D:\\Programming\\Prog_Cpp\\Laborator-2\\src\\CustomErrors.cpp",
+  "file": "D:/Programming/Prog_Cpp/Laborator-2/src/CustomErrors.cpp",
+  "output": "CMakeFiles/SequenceProject.dir/src/CustomErrors.cpp.obj"
+}
+]

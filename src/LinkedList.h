@@ -6,7 +6,7 @@
 
 template<typename T>
 class LinkedList{
-public:
+protected:
     struct Node{
         T data;
         Node* next;
@@ -32,6 +32,7 @@ public:
     void Append(T item);
     void Prepend(T item);
     void InsertAt(T item, int index);
+    void Delete(int index);
     LinkedList<T>* Concat(LinkedList<T>* list);
 };
 
@@ -129,6 +130,32 @@ void LinkedList<T>::Append(T item) {
 }
 
 template<typename T>
+void LinkedList<T>::Delete(int index){
+    if( index < 0 || index >= size){
+        throw IndexOutOfRange;
+    }
+    Node* parent = nullptr;
+    Node* cur = head;
+    if (index == 0){
+        head = cur->next;
+    }
+    else{
+        for (int i = 0; i < index; ++i){
+            parent = cur;
+            cur = cur->next;
+        }
+        parent->next = cur->next;
+    }
+    delete cur;
+    size--;
+
+    if (size == 0) {
+        head = nullptr;
+        tail = nullptr;
+    }
+}
+
+template<typename T>
 void LinkedList<T>::Prepend(T item){
     Node* newNode = new Node{item, head};
     head = newNode;
@@ -188,21 +215,4 @@ LinkedList<T>::~LinkedList() {
     size = 0;
 }
 
-template<typename T>
-bool LinkedList<T>::Equal(LinkedList<T>& otherList) const {
-    if (this->size != otherList->size){
-        return false;
-    }
-    Node* thisEl = this->head;
-    Node* otherEl = otherList->head;
-    while (thisEl != nullptr){
-        if (thisEl->data != otherEl->data){
-            return false;
-        }
-        thisEl = thisEl->next;
-        otherEl = otherEl->next;
-    }
-    return true;
-}
-
-#endif
+#endif 

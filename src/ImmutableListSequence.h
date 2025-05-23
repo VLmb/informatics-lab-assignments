@@ -8,7 +8,6 @@ template <typename T>
 class ImmutableListSequence : public ListSequence<T> {
 protected:
     ListSequence<T>* Instance() override {
-    int* data = new int[3]{1, 2, 3};
     MutableListSequence<T>* newSeq = new MutableListSequence<T>(this->items);
     return newSeq;
     }

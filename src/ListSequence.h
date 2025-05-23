@@ -9,7 +9,7 @@
 
 template <typename T>
 class ListSequence : public Sequence<T> {
-public:
+protected:
     LinkedList<T>* items;
 
     virtual ListSequence<T>* Instance() = 0;
@@ -24,13 +24,19 @@ public:
         return this;
     }
 
+    Sequence<T>* DeleteInternal(int index){
+        items->Delete(index);
+        return this;
+    }
+
     Sequence<T>* InsertAtInternal(const T& item, int index) {
         items->InsertAt(item, index);
         return this;
     }
 
     Sequence<T>* ConcatInternal(Sequence<T>* list) {
-        for (int i = 0; i < list->GetLength(); i++) {
+        int size = list->GetLength();
+        for (int i = 0; i < size; i++) {
             items->Append(list->Get(i));
         }
         return this;
@@ -47,6 +53,7 @@ public:
     virtual T& Get(int index) const override;
     virtual ListSequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
     virtual int GetLength() const override;
+    virtual Sequence<T>* Delete(int index) override;
 
     virtual Sequence<T>* Append(const T& item) override;
     virtual Sequence<T>* Prepend(const T& item) override;
@@ -190,6 +197,11 @@ int ListSequence<T>::GetLength() const {
 template<typename T>
 Sequence<T>* ListSequence<T>::Append(const T& item) {
     return Instance()->AppendInternal(item);
+}
+
+template <typename T>
+Sequence<T>* ListSequence<T>::Delete(int index){
+    return Instance()->DeleteInternal(index);
 }
 
 template<typename T>

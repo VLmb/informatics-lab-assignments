@@ -1,11 +1,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include <memory>
 #include <string>
 #include <iostream>
-#include <sstream>
-#include <limits>
 #include "CustomErrors.h"
 #include "ArraySequence.h"
 #include "ListSequence.h"
@@ -14,143 +11,140 @@
 
 class InterfaceWrapper {
 public:
-    virtual ~InterfaceWrapper() = default;
-    virtual void doAppend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) = 0;
-    virtual void doPrepend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) = 0;
-    virtual void doInsertAt(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) = 0;
-    virtual void doConcat(const std::shared_ptr<InterfaceWrapper>& other, std::shared_ptr<InterfaceWrapper>& result) = 0;
-    virtual void doGetSub() const = 0;
-    virtual void doMap(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences, const std::string& name) = 0;
-    virtual void doReduce() const = 0;
-    virtual void doPrint() const = 0;
-    virtual std::string TypeKey() const = 0;
-    virtual std::string Structure() const = 0;
-    virtual int GetLength() const = 0;
+    virtual ~InterfaceWrapper() {}
+    virtual void doAppend(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual void doPrepend(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual void doInsertAt(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual void doGetSub() = 0;
+    virtual void doDelete(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual void doMap(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual void doReduce() = 0;
+    virtual void doPrint() = 0;
+    virtual void doConcat(MutableArraySequence<InterfaceWrapper*>& sequences) = 0;
+    virtual std::string TypeKey() = 0;
+    virtual std::string Structure() = 0;
+    virtual int GetLength() = 0;
+    virtual std::string GetMutable() = 0;
 };
 
 void clearInput();
-template<typename T> T getTypedInput(const std::string& prompt = "Enter value: ");
-int getIntInput(const std::string& prompt = "");
-std::string getStringInput(const std::string& prompt);
-template<typename T> MutableArraySequence<T> getArrayInput(const std::string& prompt = "");
+template<typename T> T getTypedInput();
+int getIntInput();
+std::string getStringInput();
+template<typename T> MutableArraySequence<T> getArrayInput(std::string type);
 void ShowMenu();
-std::shared_ptr<InterfaceWrapper> ChooseSequence(std::string& name);
-void CreateSequence(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& seqs);
-int PickSequence(const MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& seqs);
+InterfaceWrapper* ChooseSequence(std::string& name);
+void CreateSequence(MutableArraySequence<InterfaceWrapper*>& seqs);
+int PickSequence(MutableArraySequence<InterfaceWrapper*>& seqs);
 void runUI();
 
 template<typename T>
 class Wrapper : public InterfaceWrapper {
 public:
-    std::shared_ptr<Sequence<T>> seq;
+    Sequence<T>* seq;
     std::string structure;
     std::string type_key;
     bool immutable;
 
-    Wrapper(const std::string& structure_, const std::string& type_, bool immutable_, T* data = nullptr, int count = 0);
+    Wrapper(std::string structure_, std::string type_, bool immutable_, T* data = NULL, int count = 0);
+    ~Wrapper();
 
-    void doAppend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) override;
-    void doPrepend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) override;
-    void doInsertAt(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) override;
-    void doConcat(const std::shared_ptr<InterfaceWrapper>& other, std::shared_ptr<InterfaceWrapper>& result) override;
-    void doGetSub() const override;
-    void doMap(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences, const std::string& name) override;
-    void doReduce() const override;
-    void doPrint() const override;
-    std::string TypeKey() const override;
-    std::string Structure() const override;
-    int GetLength() const override;
+    void doAppend(MutableArraySequence<InterfaceWrapper*>& sequences);
+    void doPrepend(MutableArraySequence<InterfaceWrapper*>& sequences);
+    void doInsertAt(MutableArraySequence<InterfaceWrapper*>& sequences);
+    void doGetSub();
+    void doDelete(MutableArraySequence<InterfaceWrapper*>& sequences);
+    void doMap(MutableArraySequence<InterfaceWrapper*>& sequences);
+    void doReduce();
+    void doPrint();
+    void doConcat(MutableArraySequence<InterfaceWrapper*>& sequences);
+    std::string TypeKey();
+    std::string Structure();
+    int GetLength();
+    std::string GetMutable();
+
 };
 
 template<typename T>
-Wrapper<T>::Wrapper(const std::string& structure_, const std::string& type_, bool immutable_, T* data, int count)
+Wrapper<T>::Wrapper(std::string structure_, std::string type_, bool immutable_, T* data, int count)
     : structure(structure_), type_key(type_), immutable(immutable_) {
     if (structure == "array") {
         if (immutable)
-            seq = std::make_shared<ImmutableArraySequence<T>>(data, count);
+            seq = new ImmutableArraySequence<T>(data, count);
         else
-            seq = std::make_shared<MutableArraySequence<T>>(data, count);
+            seq = new MutableArraySequence<T>(data, count);
     } else {
         if (immutable)
-            seq = std::make_shared<ImmutableListSequence<T>>(data, count);
+            seq = new ImmutableListSequence<T>(data, count);
         else
-            seq = std::make_shared<MutableListSequence<T>>(data, count);
+            seq = new MutableListSequence<T>(data, count);
     }
 }
 
 template<typename T>
-void Wrapper<T>::doAppend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) {
-    T value = getTypedInput<T>("Enter value to append: ");
+Wrapper<T>::~Wrapper() {
+    delete seq;
+}
+
+template<typename T>
+void Wrapper<T>::doAppend(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    std::cout << "\nEnter a value to append (type: " << type_key << "): ";
+    T value = getTypedInput<T>();
     Sequence<T>* newSeq = seq->Append(value);
-    if (newSeq != seq.get()) {
-        auto newWrapper = std::make_shared<Wrapper<T>>(structure, type_key, immutable);
-        newWrapper->seq = std::shared_ptr<Sequence<T>>(newSeq);
-        std::string name = getStringInput("Enter name for new sequence (or press Enter for default): ");
-        if (name.empty() || name == "Unnamed") {
-            name = "New_" + type_key + "_" + std::to_string(sequences.GetLength());
-        }
+
+    if (newSeq != seq) {
+        Wrapper<T>* newWrapper = new Wrapper<T>(structure, type_key, immutable);
+        newWrapper->seq = newSeq;
         sequences.Append(newWrapper);
-        std::cout << "Created new sequence '" << name << "' at index " << sequences.GetLength() - 1 << "\n";
     }
 }
 
 template<typename T>
-void Wrapper<T>::doPrepend(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) {
-    T value = getTypedInput<T>("Enter value to prepend: ");
+void Wrapper<T>::doPrepend(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    std::cout << "\nEnter a value to prepend (type: " << type_key << "): ";
+    T value = getTypedInput<T>();
     Sequence<T>* newSeq = seq->Prepend(value);
-    if (newSeq != seq.get()) {
-        auto newWrapper = std::make_shared<Wrapper<T>>(structure, type_key, immutable);
-        newWrapper->seq = std::shared_ptr<Sequence<T>>(newSeq);
-        std::string name = getStringInput("Enter name for new sequence (or press Enter for default): ");
-        if (name.empty() || name == "Unnamed") {
-            name = "New_" + type_key + "_" + std::to_string(sequences.GetLength());
-        }
+    if (newSeq != seq) {
+        Wrapper<T>* newWrapper = new Wrapper<T>(structure, type_key, immutable);
+        newWrapper->seq = newSeq;
         sequences.Append(newWrapper);
-        std::cout << "Created new sequence '" << name << "' at index " << sequences.GetLength() - 1 << "\n";
     }
 }
 
 template<typename T>
-void Wrapper<T>::doInsertAt(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences) {
-    int index = getIntInput("Enter index: ");
-    T value = getTypedInput<T>("Enter value: ");
+void Wrapper<T>::doInsertAt(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    std::cout << "\nEnter the index to insert at (0 to " << seq->GetLength() << "): ";
+    int index = getIntInput();
+    if (index < 0 || index > seq->GetLength()) {
+        std::cout << "Error: Index must be between 0 and " << seq->GetLength() << "\n";
+        return;
+    }
+    std::cout << "Enter a value to insert (type: " << type_key << "): ";
+    T value = getTypedInput<T>();
     Sequence<T>* newSeq = seq->InsertAt(value, index);
-    if (newSeq != seq.get()) {
-        auto newWrapper = std::make_shared<Wrapper<T>>(structure, type_key, immutable);
-        newWrapper->seq = std::shared_ptr<Sequence<T>>(newSeq);
-        std::string name = getStringInput("Enter name for new sequence (or press Enter for default): ");
-        if (name.empty() || name == "Unnamed") {
-            name = "New_" + type_key + "_" + std::to_string(sequences.GetLength());
-        }
+    if (newSeq != seq) {
+        Wrapper<T>* newWrapper = new Wrapper<T>(structure, type_key, immutable);
+        newWrapper->seq = newSeq;
         sequences.Append(newWrapper);
-        std::cout << "Created new sequence '" << name << "' at index " << sequences.GetLength() - 1 << "\n";
     }
 }
 
 template<typename T>
-void Wrapper<T>::doConcat(const std::shared_ptr<InterfaceWrapper>& other, std::shared_ptr<InterfaceWrapper>& result) {
-    auto other_casted = std::dynamic_pointer_cast<Wrapper<T>>(other);
-    if (!other_casted || other_casted->structure != structure || other_casted->type_key != type_key) {
-        throw NotValidArgument;
+void Wrapper<T>::doGetSub() {
+    std::cout << "Enter the start index (0 to " << seq->GetLength() - 1 << "): ";
+    int start = getIntInput();
+    if (start < 0 || start >= seq->GetLength()) {
+        throw IndexOutOfRange;
     }
-    auto newSeq = seq->Concat(other_casted->seq.get());
-    auto newWrapper = std::make_shared<Wrapper<T>>(structure, type_key, immutable);
-    newWrapper->seq = std::shared_ptr<Sequence<T>>(newSeq);
-    result = newWrapper;
-}
-
-template<typename T>
-void Wrapper<T>::doGetSub() const {
-    int start = getIntInput("Enter start index: ");
-    int end = getIntInput("Enter end index: ");
-    auto subSeq = seq->GetSubsequence(start, end);
-    std::cout << "Subsequence: [";
+    std::cout << "Enter the end index (" << start << " to " << seq->GetLength() - 1 << "): ";
+    int end = getIntInput();
+    if (end < start || end >= seq->GetLength()) {
+        throw IndexOutOfRange;
+    }
+    Sequence<T>* subSeq = seq->GetSubsequence(start, end);
+    std::cout << "Subsequence:  [";
     for (int i = 0; i < subSeq->GetLength(); ++i) {
-        if constexpr (std::is_same_v<T, std::string>) {
-            std::cout << "\"" << subSeq->Get(i) << "\"";
-        } else {
-            std::cout << subSeq->Get(i);
-        }
+        std::cout << subSeq->Get(i);
         if (i < subSeq->GetLength() - 1) std::cout << ", ";
     }
     std::cout << "]\n";
@@ -158,50 +152,98 @@ void Wrapper<T>::doGetSub() const {
 }
 
 template<typename T>
-void Wrapper<T>::doMap(MutableArraySequence<std::shared_ptr<InterfaceWrapper>>& sequences, const std::string& name) {
-    auto sum = [](const T& x) { return x + x; };
-    auto newSeq = seq->Map(sum);
-    auto wrapped = std::make_shared<Wrapper<T>>(structure, type_key, immutable);
-    wrapped->seq = std::shared_ptr<Sequence<T>>(newSeq);
+void Wrapper<T>::doDelete(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    if (seq->GetLength() == 0){
+        std::cout << "Empty sequence, unable to delete any element\n";
+        return;
+    }
+    std::cout << "Enter the index (0 to " << seq->GetLength() - 1 << "): ";
+    int index = getIntInput();
+    if (index < 0 || index >= seq->GetLength()) {
+        throw IndexOutOfRange;
+    }
+    Sequence<T>* newSeq = seq->Delete(index);
+    if (newSeq != seq) {
+        Wrapper<T>* newWrapper = new Wrapper<T>(structure, type_key, immutable);
+        newWrapper->seq = newSeq;
+        sequences.Append(newWrapper);
+    }
+}
+
+template<typename T>
+void Wrapper<T>::doMap(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    Sequence<T>* newSeq = seq->Map([](const T& x) { return x + x; });
+    Wrapper<T>* wrapped = new Wrapper<T>(structure, type_key, immutable);
+    wrapped->seq = newSeq;
     sequences.Append(wrapped);
 }
 
 template<typename T>
-void Wrapper<T>::doReduce() const {
-    auto sum = [](T a, T b) {
-        return a + b;
-    };
-    T result = seq->Reduce(sum, 0);
-    std::cout << "Result: " << result << "\n";
+void Wrapper<T>::doReduce() {
+    if (type_key == "string") {
+        throw TypeMismatchError;
+    }
+    T result = 0;
+    for (int i = 0; i < seq->GetLength(); ++i) {
+        result = result + seq->Get(i);
+    }
+    std::cout << result << "\n";
 }
 
 template<typename T>
-void Wrapper<T>::doPrint() const {
-    std::cout << "Sequence: [";
+void Wrapper<T>::doPrint() {
+    std::cout << std::endl;
+    std::cout << "Sequence:  ";
+    std::cout << "[";
     for (int i = 0; i < seq->GetLength(); ++i) {
-        if constexpr (std::is_same_v<T, std::string>) {
-            std::cout << "\"" << seq->Get(i) << "\"";
-        } else {
-            std::cout << seq->Get(i);
-        }
+        std::cout << seq->Get(i);
         if (i < seq->GetLength() - 1) std::cout << ", ";
     }
     std::cout << "]\n";
 }
 
 template<typename T>
-std::string Wrapper<T>::TypeKey() const {
+void Wrapper<T>::doConcat(MutableArraySequence<InterfaceWrapper*>& sequences) {
+    int index = PickSequence(sequences);
+    if (index == -1) {
+        std::cout << "\nNo sequence selected\n";
+        return;
+    }
+    InterfaceWrapper* other = sequences.Get(index);
+    if (structure != other->Structure() || type_key != other->TypeKey()) {
+        throw TypeMismatchError;
+    }
+    Wrapper<T>* other_casted = (Wrapper<T>*)other;
+    Sequence<T>* newSeq = seq->Concat(other_casted->seq);
+    bool flag;
+    if (newSeq != seq) {
+        if (immutable = true) { flag = false; }
+        else { flag = false; }
+        Wrapper<T>* newWrapper = new Wrapper<T>(structure, type_key, flag);
+        newWrapper->seq = newSeq;
+        sequences.Append(newWrapper);
+    }
+}
+
+template<typename T>
+std::string Wrapper<T>::TypeKey() {
     return type_key;
 }
 
 template<typename T>
-std::string Wrapper<T>::Structure() const {
+std::string Wrapper<T>::Structure() {
     return structure;
 }
 
 template<typename T>
-int Wrapper<T>::GetLength() const {
+int Wrapper<T>::GetLength() {
     return seq->GetLength();
+}
+
+template<typename T>
+std::string Wrapper<T>::GetMutable() {
+    if (immutable) return "immutable sequence";
+    else { return "mutable sequence"; }
 }
 
 #endif
