@@ -1,0 +1,13 @@
+**/.idea/
+**/.vscode/
+**/cmake-build-*/
+**/build/
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.log
+*.tmp
+*.temp
